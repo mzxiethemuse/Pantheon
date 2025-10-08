@@ -1,0 +1,40 @@
+sampler uImage0 : register(s0);
+int quality;
+float amount;
+float threshold;
+float brightness;
+
+float avg(float4 a) {
+	return (a.x + a.y + a.z + a.w) / 4;
+}
+float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
+{
+	coords = clamp(coords, 0, 1);
+    //controls the NUMBER of blur bands
+    int max = quality;
+    // controls the SIZE of each blur band
+    float size = amount / max;
+    // a HIGH number with LOW SIZE will result in a smooth and strong blur
+    // for a BALANCED blur... divide SIZE by # of BANDS
+    float4 color = tex2D(uImage0, coords) * max * 2;
+
+    [unroll(68)] for (int i = -max; i<max; i++) {
+        [unroll(68)] for (int j = -max; j<max; j++) {
+            float2 uv2 = coords + float2(i * size * 0.01, j * size * 0.01);
+            if ((i != 0 && j != 0) && avg(tex2D(uImage0, coords)) > threshold) {
+            
+                color += tex2D(uImage0, uv2) / (3 * distance(float2(i, j), coords));
+            }
+        }
+    }
+    color /= (max / brightness);
+    return color;
+}
+
+technique Technique1
+{
+	pass Circle
+	{
+		PixelShader = compile ps_2_0 PixelShaderFunction();
+	}
+}

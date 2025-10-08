@@ -1,0 +1,152 @@
+CommonTooltips: {
+	TrapTooltip:
+		'''
+		Takes {0} seconds to prime
+		{1} when detonated
+		'''
+	TotemDurationIncrease: Increases totem duration by {0}%
+	SummonerTotemTooltip:
+		'''
+		Throws out a {0} totem that {1}
+		Players near the totem are given the {2} buff
+		'''
+	Gay: Test
+}
+
+Items: {
+	SunflowerTotemItem: {
+		DisplayName: Potted Superflower
+		Tooltip: "{$CommonTooltips.SummonerTotemTooltip}"
+	}
+
+	DebugRod: {
+		DisplayName: Debug Rod
+		Tooltip: ""
+	}
+
+	DryadPlushItem: {
+		DisplayName: Dryad Plushie
+		Tooltip: "{$CommonTooltips.SummonerTotemTooltip}"
+	}
+
+	PeacefulEffigy: {
+		DisplayName: Peaceful Effigy
+		Tooltip: "{$CommonTooltips.TotemDurationIncrease}"
+	}
+
+	OrichalcumTotemItem: {
+		DisplayName: Orichalcum Bloom
+		Tooltip: "{$CommonTooltips.SummonerTotemTooltip}"
+	}
+
+	CaltropsItem: {
+		DisplayName: Caltrops
+		Tooltip: Throws a set of 3 lingering caltrops
+	}
+
+	MeteoriteCaltropsItem: {
+		DisplayName: Meteorite Mine
+		Tooltip: "{$CommonTooltips.TrapTooltip}"
+	}
+
+	Manastorm: {
+		DisplayName: Dreamcatcher
+		Tooltip: Consuming mana while above 75% mana will regenerate 40 mana over 2 seconds
+	}
+
+	ManaOpticDisplay: {
+		DisplayName: Mana Optic Display
+		Tooltip: Displays useful mana-related statistics
+	}
+
+	Hairspray: {
+		DisplayName: Hairspray
+		Tooltip: Increases use rate of gel-based ranged weapons
+	}
+
+	PlatfortleItem: {
+		DisplayName: Platfortle
+		Tooltip: Flies in a straight line, placing platforms behind it
+	}
+
+	InfiniPlatfortleItem: {
+		DisplayName: Infini Platfortle Item
+		Tooltip: Flies in a straight line, placing platforms behind it
+	}
+
+	ManaSink: {
+		DisplayName: Hollow Rock
+		Tooltip:
+			'''
+			Grants up to 20% increased magic damage
+			Effect strength grows with mana spent
+			'''
+	}
+
+	EmptyStar: {
+		DisplayName: Empty Star
+		Tooltip:
+			'''
+			Grants up to 20% increased magic damage and reduced mana cost
+			Effect strength grows with mana spent
+			'''
+	}
+
+	Wishbone: {
+		DisplayName: Wishbone
+		Tooltip:
+			'''
+			Using mana while at max mana grants a temporary magic damage buff
+			"I got 5 seconds!"
+			'''
+	}
+
+	ManaBankAccessory: {
+		DisplayName: Mana Recycler
+		Tooltip:
+			'''
+			Stores half of used mana
+			Stored mana is regained upon hitting 0 mana
+			Stored mana decays over time
+			'''
+	}
+
+	Athame: {
+		DisplayName: Athame
+		Tooltip:
+			'''
+			Trying to use mana while not having any will use life instead
+			(NOTE... REWRITE ME)
+			'''
+	}
+
+	CeremonialPincushion: {
+		DisplayName: Ceremonial Pincushion
+		Tooltip: Taking damage restores mana
+	}
+
+	FocusLens: {
+		DisplayName: Focus Lens
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	SunflowerPetal.DisplayName: Sunflower Petal
+	SunflowerTotem.DisplayName: Sunflower Totem
+	DryadPlush.DisplayName: Dryad Plush
+	OrichalcumTotem.DisplayName: Orichalcum Totem
+	Caltrops.DisplayName: Caltrops
+	MeteoriteCaltrops.DisplayName: Meteorite Caltrops
+	Hitbox.DisplayName: Hitbox
+	Platfortle.DisplayName: Platfortle
+	InfiniPlatfortle.DisplayName: Infini-Platfortle
+	FocusLightOrb.DisplayName: Focus Light Orb
+}
+
+Buffs: {
+	WishboneBuff: {
+		DisplayName: Wishbone
+		Description: Increased magic damage and attack speed. Make a wish!
+	}
+}

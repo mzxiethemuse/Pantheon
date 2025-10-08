@@ -1,0 +1,3 @@
+displayName = Pantheon Mod
+author = mzxie.net
+version = 0.1

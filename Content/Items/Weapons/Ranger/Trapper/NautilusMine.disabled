@@ -1,0 +1,132 @@
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Pantheon.Assets;
+using Pantheon.Common.Templates;
+using Pantheon.Common.Utils;
+using Pantheon.Content.Dusts;
+using Pantheon.Content.Projectiles;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+
+namespace Pantheon.Content.Items.Weapons.Ranger.Trapper;
+
+public class NautilusMine : TrapProjectile
+{
+	public override string Texture => "Pantheon/Content/Items/Weapons/Ranger/Trapper/NautilusMine";
+
+	public override float TimeToPrime => 2;
+	public override float PrimedDamageIncrease => 1f;
+
+	public override void OnSpawn(IEntitySource source)
+	{
+		Projectile.velocity *= Main.rand.NextFloat(0.8f, 1.2f);
+		Projectile.netUpdate = true;
+		base.OnSpawn(source);
+	}
+
+	public override void SetDefaults()
+	{
+		Projectile.Size = new Vector2(38, 42);
+		Projectile.aiStyle = -1;
+		Projectile.penetrate = 1;
+		
+		Projectile.timeLeft = 60 * 42;
+		Projectile.friendly = true;
+		Projectile.hostile = false;
+		base.SetDefaults();
+	}
+
+	public override void OnPrimed()
+	{
+		SoundEngine.PlaySound(Sounds.SeaMinePrime.WithPitchOffset(2f), Projectile.Center);
+	}
+	
+
+
+	public override void PostAI()
+	{
+		Projectile.ai[0] += MathF.Abs(Projectile.velocity.X) * 0.02f;
+		Projectile.ai[0] *= 0.99f;
+		float r = MathF.PI / 4f;
+		Projectile.rotation = MathHelper.Clamp((Projectile.velocity.X * 0.1f), -r, r);
+		Projectile.velocity *= 0.97f;
+		base.PostAI();
+	}
+
+	public override void Detonate(NPC target, NPC.HitInfo hit)
+	{
+		
+		for (int i = 0; i < 100; i++)
+		{
+			Dust.NewDust(Projectile.Center - new Vector2(50, 50), 100, 100, DustID.Flare);
+
+			Dust.NewDust(Projectile.Center - new Vector2(50, 50), 100, 100, DustID.Smoke);
+		}
+		SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
+
+		SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+		Hitbox.SpawnHitbox(target.GetSource_OnHurt(null, null), Projectile.Center, 50, 50, Projectile.damage, 10,
+			Projectile.owner, true);
+		
+	}
+
+	// public override bool OnTileCollide(Vector2 oldVelocity)
+	// {
+	// 	base.OnTileCollide(oldVelocity);
+	// 	Projectile.velocity = Vector2.Zero;
+	// 	Projectile.aiStyle = -1;
+	// 	return false;
+	// }
+
+	public override bool PreDraw(ref Color lightColor)
+	{
+		var tex = TextureAssets.Projectile[Projectile.type];
+		Main.spriteBatch.Draw(tex.Value, Projectile.Center - Main.screenPosition - new Vector2(Projectile.rotation * -30f, 0), new Rectangle(0, 0, 38, 42), lightColor, Projectile.rotation, new Vector2(38, 42)/2, Vector2.One, SpriteEffects.None, 0f);
+		Vector2 dPos = Projectile.Center + new Vector2(0, 15).RotatedBy(Projectile.rotation);
+		float eeR = Projectile.rotation * 0.25f +
+		            MathF.Sin((float)Main.timeForVisualEffects / 35f + Projectile.whoAmI
+		            + (Projectile.velocity.X > 0 ? MathF.PI / 2 : 0f)
+		            ) * 0.2f * Projectile.ai[0];
+		float eR = eeR;
+		for (int i = 0; i < 3; i++)
+		{
+			Main.spriteBatch.Draw(tex.Value, dPos - Main.screenPosition - new Vector2(Projectile.rotation * -30f, 0), new Rectangle(40, 0, 10, 14), lightColor, Projectile.rotation + eR, new Vector2(5, 0), Vector2.One, SpriteEffects.None, 0f);
+			dPos += new Vector2(0f, 14).RotatedBy(Projectile.rotation + eR);
+			eR += eeR;
+		}
+		
+		return false;
+	}
+}
+
+public class NautilusMineItem : ModItem
+{
+	public override string Texture => "Pantheon/Content/Items/Weapons/Ranger/Trapper/NautilusMine";
+	public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(2, "Sends out a sonar pulse");
+
+
+	public override void SetDefaults()
+	{
+		Item.Size = new Vector2(18, 18);
+		Item.useTime = 28;
+		Item.useAnimation = 28;
+
+		Item.damage = 23;
+		Item.DamageType = DamageClass.Ranged;
+		Item.noMelee = true;
+		Item.noUseGraphic = true;
+		Item.useStyle = ItemUseStyleID.Swing;
+		Item.autoReuse = true;
+		Item.consumable = true;
+		Item.maxStack = 99;
+		Item.UseSound = SoundID.Item1;
+		Item.shootSpeed = 8.36124156121599999999911909f;
+		Item.shoot = ModContent.ProjectileType<NautilusMine>();
+	}
+}
