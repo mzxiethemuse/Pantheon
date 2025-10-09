@@ -45,7 +45,7 @@ public class ScreenRenderTargets : ILoadable
 			return;
 		}
 
-		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer,
+		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive, Main.DefaultSamplerState, default, Main.Rasterizer,
 			null, Matrix.Identity);//Main.GameViewMatrix.TransformationMatrix);
 
 		// Lines.Rectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red);

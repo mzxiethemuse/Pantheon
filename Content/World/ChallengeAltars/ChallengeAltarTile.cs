@@ -60,7 +60,7 @@ public class ChallengeAltarTile : ModTile
                 Vector2 offScreen = Main.drawToScreen ? new Vector2(Main.offScreenRange) : Vector2.Zero;
                 Point p = new Point(i, j);
                 //p.ToWorldCoordinates(16+8, 12) - Main.screenPosition + offScreen
-                spriteBatch.Draw(t, Main.MouseScreen/ 2, null, Color.White * 0.25f, 0f, t.Size() / 2, new Vector2(32, 64) / t.Size(), SpriteEffects.FlipVertically, 0f);
+                spriteBatch.Draw(t, (p.ToWorldCoordinates(16 + 8, 12) + offScreen - Main.screenPosition) / 2, null, Color.White * 0.25f, 0f, t.Size() / 2, new Vector2(32, 64) / t.Size() / 2, SpriteEffects.FlipVertically, 0f);
                 Main.spriteBatch.End();});
 			
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
