@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Pantheon.Assets;
@@ -10,12 +11,15 @@ public class Shaders : ILoadable
 {
 	public void Load(Mod mod)
 	{
-		GaussianBlur.Value.Parameters["kernel"].SetValue(new float[]
+		if (Main.netMode != NetmodeID.Server)
 		{
-			1, 2, 1,
-			2, 4, 2,
-			1, 2, 1
-		});
+			GaussianBlur.Value.Parameters["kernel"].SetValue(new float[]
+			{
+				1, 2, 1,
+				2, 4, 2,
+				1, 2, 1
+			});
+		}
 	}
 
 	public void Unload()
@@ -29,7 +33,8 @@ public class Shaders : ILoadable
 	/// </summary>
 	public static readonly Asset<Effect> Wave = ModContent.Request<Effect>(AssetDirectory.Shaders + "Wavey", AssetRequestMode.ImmediateLoad);
 	public static readonly Asset<Effect> Scanline = ModContent.Request<Effect>(AssetDirectory.Shaders + "Scanline", AssetRequestMode.ImmediateLoad);
-	
+	public static readonly Asset<Effect> Shine = ModContent.Request<Effect>(AssetDirectory.Shaders + "Shine", AssetRequestMode.ImmediateLoad);
+
 	/// <summary>
 	/// has one parameter; float threshold
 	/// </summary>

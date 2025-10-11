@@ -129,6 +129,11 @@ Items: {
 		DisplayName: Focus Lens
 		Tooltip: ""
 	}
+
+	ChallengeAltarPlacable: {
+		DisplayName: Challenge Altar Placable
+		Tooltip: You shouldn't have this
+	}
 }
 
 Projectiles: {
@@ -137,11 +142,10 @@ Projectiles: {
 	DryadPlush.DisplayName: Dryad Plush
 	OrichalcumTotem.DisplayName: Orichalcum Totem
 	Caltrops.DisplayName: Caltrops
-	MeteoriteCaltrops.DisplayName: Meteorite Caltrops
 	Hitbox.DisplayName: Hitbox
 	Platfortle.DisplayName: Platfortle
 	InfiniPlatfortle.DisplayName: Infini-Platfortle
-	FocusLightOrb.DisplayName: Focus Light Orb
+	FocusLightOrb.DisplayName: Light Orb
 }
 
 Buffs: {

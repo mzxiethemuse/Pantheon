@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Terraria;
 
 namespace Pantheon.Common.Utils;
 
@@ -31,6 +32,30 @@ public static class Utilities
         }
     }
     
+    public static int GetWeightedRandom(int[] outcomes, int[] weights)
+    {
+        int total = 0;
+        foreach (var w in weights)
+        {
+            total += w;
+        }
+
+        int random = Main.rand.Next(0, total);
+
+        int cursor = 0;
+        int i = 0;
+        foreach (var w in weights)
+        {
+            cursor += w;
+            if (cursor >= random)
+            {
+                return outcomes[i];
+            }
+            i++;
+        }
+
+        return -1;
+    }
 }
 
 public struct ValueWithSource
