@@ -11,7 +11,6 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace Pantheon.Content.Items.Accessories.Mage;
 
-//running out of mana causes you to overheat / overheating nullifies mana sickness and grants 100 mana over 5 secs / 
 public class ManaBankAccessory : ModItem
 {
 

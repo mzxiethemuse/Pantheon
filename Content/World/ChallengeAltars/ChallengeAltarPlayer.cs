@@ -15,9 +15,10 @@ public class ChallengeAltarPlayer : ModPlayer
 		if (Player.ZoneCorrupt) return Color.MediumOrchid * 0.5f;
 		if (Player.ZoneCrimson) return Color.DarkRed;
 		if (Player.ZoneNormalCaverns) return Color.CadetBlue * 0.25f; 
+		if (Player.ZoneSnow) return Color.AliceBlue * 0.35f;
 
 		if (Player.ZoneGlowshroom) return Color.SteelBlue;
-		if (Player.ZoneJungle) return Color.DeepPink * 0.25f;
+		if (Player.ZoneJungle) return Color.YellowGreen * 0.25f;
 		return Colors.CurrentLiquidColor * 0.5f;;
 	}
 	
@@ -27,6 +28,7 @@ public class ChallengeAltarPlayer : ModPlayer
 		if (Player.ZoneUndergroundDesert) return Color.Khaki * 0.5f;
 		if (Player.ZoneNormalUnderground) return Color.SandyBrown * 0.5f;
 		if (Player.ZoneNormalCaverns) return Color.DarkSlateBlue; 
+		if (Player.ZoneSnow) return Color.CornflowerBlue * 0.75f;
 
 		if (Player.ZoneJungle) return Color.SeaGreen;
 		if (Player.ZoneCorrupt) return Color.MediumPurple * 0.5f;

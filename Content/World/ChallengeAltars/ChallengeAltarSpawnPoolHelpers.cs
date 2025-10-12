@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Pantheon.Common.Utils;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,19 +20,31 @@ public partial class ChallengeAltarSpawnPools : ILoadable
 		
 	}
 
-	public static int GetRandomFromPool(List<NPCChallengeSpawn> spawns)
+	public static int GetRandomFromPool(List<NPCChallengeSpawn> spawns, ref List<short> blacklist)
 	{
+		int type = -1;
+		int index = -1;
 		var types = new int[spawns.Count];
 		var weights = new int[spawns.Count];
+		var blacklisted = new bool[spawns.Count];
 
 		for (int i = 0; i < types.Length; i++)
 		{
 			types[i] = spawns[i].type;
 			weights[i] = spawns[i].type;
-
+			blacklisted[i] = spawns[i].limited;
+		}
+		while (type == -1 || blacklist.Contains((short)type))
+		{
+			index = Utilities.GetWeightedRandom(weights);
+			type = types[index];
 		}
 
-		return Utilities.GetWeightedRandom(types, weights);
+		if (blacklisted[index])
+		{
+			blacklist.Add((short)types[index]);
+		}
+		return type;
 	}
 
 	public static int[] GetTypes(List<NPCChallengeSpawn> spawns)
@@ -66,9 +79,10 @@ public partial class ChallengeAltarSpawnPools : ILoadable
 
 }
 
-public struct NPCChallengeSpawn(int type, int weight, int weightIncreasePerWave)
+public struct NPCChallengeSpawn(int type, int weight, int weightIncreasePerWave, bool limited = false)
 {
 	public int type = type;
 	public int weight = weight;
 	public int weightIncreasePerWave = weightIncreasePerWave;
+	public bool limited = limited;
 }

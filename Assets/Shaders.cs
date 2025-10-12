@@ -34,6 +34,11 @@ public class Shaders : ILoadable
 	public static readonly Asset<Effect> Wave = ModContent.Request<Effect>(AssetDirectory.Shaders + "Wavey", AssetRequestMode.ImmediateLoad);
 	public static readonly Asset<Effect> Scanline = ModContent.Request<Effect>(AssetDirectory.Shaders + "Scanline", AssetRequestMode.ImmediateLoad);
 	public static readonly Asset<Effect> Shine = ModContent.Request<Effect>(AssetDirectory.Shaders + "Shine", AssetRequestMode.ImmediateLoad);
+	
+	/// <summary>
+	/// Requires uTime to be set
+	/// </summary>
+	public static readonly Asset<Effect> AltarNPCOverlay = ModContent.Request<Effect>(AssetDirectory.Shaders + "AltarOverlay", AssetRequestMode.ImmediateLoad);
 
 	/// <summary>
 	/// has one parameter; float threshold

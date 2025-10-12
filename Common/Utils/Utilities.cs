@@ -32,7 +32,7 @@ public static class Utilities
         }
     }
     
-    public static int GetWeightedRandom(int[] outcomes, int[] weights)
+    public static int GetWeightedRandom(int[] weights)
     {
         int total = 0;
         foreach (var w in weights)
@@ -49,7 +49,7 @@ public static class Utilities
             cursor += w;
             if (cursor >= random)
             {
-                return outcomes[i];
+                return i;
             }
             i++;
         }

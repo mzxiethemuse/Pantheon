@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
@@ -43,19 +44,17 @@ public class ChallengeAltarTile : ModTile
 
 		public override IEnumerable<Item> GetItemDrops(int i, int j)
 		{
-			if (TileObjectData.IsTopLeft(i, j) && TileEntity.TryGet(i, j, out ChallengeAltarEntity entity))
-			{
-				var drops = new Item[entity.loot.Length];
-				for (int k = 0; k < entity.loot.Length; k++)
-				{
-					yield return new Item(entity.loot[k], 1);
-					// drops[k].Prefix(-1);
-				}
 
-				// return drops;
+			for (int k = 0; k < ChallengeAltarSystem.Instance.activeAltarLoot.Length; k++)
+			{
+				yield return new Item(ChallengeAltarSystem.Instance.activeAltarLoot[k], 1);
+				// drops[k].Prefix(-1);
 			}
 
-			foreach (var itemDrop in base.GetItemDrops(i, j)) yield return itemDrop;
+			// return drops;
+			
+
+			// foreach (var itemDrop in base.GetItemDrops(i, j)) yield return itemDrop;
 		}
 
 		public override bool RightClick(int x, int y)
@@ -63,6 +62,21 @@ public class ChallengeAltarTile : ModTile
 			var pos = TileObjectData.TopLeft(x, y);
 			if (TileEntity.TryGet(pos, out ChallengeAltarEntity entity))
 			{
+				if (ChallengeAltarSystem.Instance.isAltarActive)
+				{
+					foreach(NPC npc in Main.npc.Where(npc => npc.active && npc.GetGlobalNPC<AltarNPC>().partOfAltarChallenge)) {
+						float distance = ChallengeAltarSystem.Instance.altarPositionWorld.Distance(npc.Center);
+						Vector2 p = ChallengeAltarSystem.Instance.altarPositionWorld;
+						for (int i = 0; i < distance / 16; i++)
+						{
+							p += ChallengeAltarSystem.Instance.altarPositionWorld.DirectionTo(npc.Center) * 16;
+							Dust.NewDustPerfect(p,
+								DustID.TintableDustLighted, Main.rand.NextVector2Circular(0.25f, 0.25f), 0,
+								Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFirePrimaryColor(),
+								2f);
+						}
+					}
+				}
 				ChallengeAltarSystem.Instance.SetActiveAltar(pos.ToPoint());
 			}
 			// Main.NewText("Penis");
@@ -128,15 +142,15 @@ public class ChallengeAltarTile : ModTile
 						// Main.NewText(entity.loot.Length + ".." + index);
 						short itemID = entity.loot[index];
 						var t = TextureAssets.Item[itemID].Value;
-						float textureHeightToLengthRatio = t.Size().X / t.Size().Y;
-						spriteBatch.Draw(t, pos, null, Color.White, 0, t.Size() / 2f, new Vector2(18 * textureHeightToLengthRatio, 18) / t.Size(), SpriteEffects.None, 0f);
+						Vector2 textureHeightToLengthRatio = Vector2.Zero.DirectionTo(t.Size());
+						spriteBatch.Draw(t, pos, null, Color.White, 0, t.Size() / 2f, new Vector2(18, 18) * textureHeightToLengthRatio / t.Size() * 1.2f, SpriteEffects.None, 0f);
 					}
 					
 					int frameY = (int)MathF.Floor((float)((Main.timeForVisualEffects * 0.1f) % 8));
 					
 					spriteBatch.Draw(CrystalTexture.Value,
 						pos,
-						new Rectangle(0, 46 * frameY, 28, 46), player.GetAltarFirePrimaryColor() with { A = 10 }, 0f,
+						new Rectangle(0, 46 * frameY, 28, 46), player.GetAltarFirePrimaryColor() with { A = 155 }, 0f,
 						new Vector2(14, 23), Vector2.One, SpriteEffects.None, 0f);
 
 
@@ -167,10 +181,19 @@ public class ChallengeAltarEntity : ModTileEntity
 	// storing the loot,
 	public override bool IsTileValidForEntity(int x, int y) => Framing.GetTileSafely(x, y).TileType == ModContent.TileType<ChallengeAltarTile>() && TileObjectData.IsTopLeft(x, y);
 
+	public ushort tileBelow => Framing.GetTileSafely(Position.X + 1, Position.Y + 4).TileType;
+	public short[] loot = [-1];
 
-	public short[] loot = [ItemID.HermesBoots, ItemID.LifeCrystal, ItemID.BattlePotion];
-	
-	
+	public override void Update()
+	{
+		if (loot[0] == -1)
+		{
+			loot = GetLootBasedOnPosition(Position.ToPoint());
+			NetMessage.SendData(MessageID.TileEntitySharing, number: ID);
+		}
+		base.Update();
+	}
+
 	public override void SaveData(TagCompound tag)
 	{
 		tag.Add("AltarLoot", loot);
@@ -182,6 +205,89 @@ public class ChallengeAltarEntity : ModTileEntity
 		loot = tag.Get<short[]>("AltarLoot");
 		base.LoadData(tag);
 	}
-	
-	
+
+	public override void NetSend(BinaryWriter writer)
+	{
+		writer.Write(loot.Length);
+		for (int i = 0; i < loot.Length; i++)
+		{
+			
+			writer.Write(loot[i]);
+		}
+	}
+
+	public override void NetReceive(BinaryReader reader)
+	{
+		var length = reader.ReadInt32();
+		loot = new short[length];
+		for (int i = 0; i < length; i++)
+		{
+			loot[i] = reader.ReadInt16();
+		}	
+	}
+
+
+	public short[] GetLootBasedOnPosition(Point pos)
+	{
+		int amount = Main.rand.Next(3, 5);
+		ushort onTopOf = tileBelow;
+		List<short> loot = new List<short>();
+		if (!Main.hardMode)
+		{
+			// there is always a life crystal as a loot drop in PreHM
+			loot.Add(ItemID.LifeCrystal);
+			for (int i = 0; i < Main.rand.Next(1, 3); i++)
+			{
+
+				short choice = -1;
+				while (choice == -1 || loot.Contains(choice))
+				{
+					choice = ChallengeAltarLootTables.UniversalPreHMUniqueLoot[
+						Main.rand.Next(0, ChallengeAltarLootTables.UniversalPreHMUniqueLoot.Length)];
+
+					if (TileID.Sets.SandBiome[onTopOf] == 1)
+					{
+						choice = ChallengeAltarLootTables.PreHMDesert[
+							Main.rand.Next(0, ChallengeAltarLootTables.PreHMDesert.Length)];
+					}
+					else if (TileID.Sets.SnowBiome[onTopOf] == 1)
+					{
+						choice = ChallengeAltarLootTables.PreHMSnow[
+							Main.rand.Next(0, ChallengeAltarLootTables.PreHMSnow.Length)];
+					}
+					else if (TileID.Sets.JungleBiome[onTopOf] == 1)
+					{
+						choice = ChallengeAltarLootTables.PreHMJungle[
+							Main.rand.Next(0, ChallengeAltarLootTables.PreHMJungle.Length)];
+					}
+				}
+				loot.Add(choice);
+				
+			}
+
+		}
+		else
+		{
+			if (NPC.downedPlantBoss)
+			{
+				loot.Add(ItemID.LifeFruit);
+			}
+			loot.Add(ChallengeAltarLootTables.UniversalHMUniqueLoot[Main.rand.Next(0, ChallengeAltarLootTables.UniversalHMUniqueLoot.Length)]);
+			for (int i = 0; i < Main.rand.Next(3, 5); i++)
+			{
+				loot.Add(ItemID.SoulofNight);
+			}
+		} 
+
+		if (!Main.rand.NextBool(3))
+		{
+			loot.Add(ChallengeAltarLootTables.Potions[Main.rand.Next(0, ChallengeAltarLootTables.Potions.Length)]);
+			
+		}
+		
+		
+		return loot.ToArray();
+	}
+
+
 }

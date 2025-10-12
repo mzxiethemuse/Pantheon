@@ -4,7 +4,7 @@ namespace Pantheon.Common.Players;
 
 public class BiomePlayer : ModPlayer
 {
-	public bool Underground => Player.ZoneNormalCaverns;
+	public bool Underground => Player.ZoneDirtLayerHeight || Player.ZoneRockLayerHeight;
 	private VanillaBiome? _biome;
 	public VanillaBiome Biome
 	{
@@ -31,7 +31,6 @@ public class BiomePlayer : ModPlayer
 		if (Player.ZoneDesert) return VanillaBiome.Desert;
 		if (Player.ZoneJungle) return VanillaBiome.Jungle;
 		if (Player.ZoneSnow) return VanillaBiome.Snow;
-		
 
 		return VanillaBiome.None;
 	}

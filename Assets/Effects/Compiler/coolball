@@ -1,0 +1,19 @@
+cbuffer vars : register(b0)
+{
+	float2 uResolution;
+	float uTime;
+	float4 colorA;
+	float4 colorB;
+};
+
+Texture2D tex : register(t0);
+sampler smp : register(s0);
+
+float4 main(float4 fragCoord : SV_POSITION) : SV_TARGET
+{
+    float2 coords = fragCoord.xy/uResolution;
+    float4 c = tex.Sample(tex, coords * 0.25 + float2(0, uTime));
+    float displacement = c.r - 0.5;
+	float a = pow(0.4 - distance(coords + displacement * 0.3, float2(0.5, 0.5)), 0.5);
+    return (c * a *  colorA * 4) + (c * pow(a, 4) * 20 *  colorB);
+}

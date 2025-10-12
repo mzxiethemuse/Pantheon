@@ -17,4 +17,7 @@ public class Sounds : ILoadable
 	public static SoundStyle DreamcatcherMana = new SoundStyle(AssetDirectory.Sound + "DreamcatcherSoundShit");
 	public static SoundStyle ManaBankRestore = new SoundStyle(AssetDirectory.Sound + "ManaBankRestore");
 
+	public static SoundStyle ChallengeAltarFinish = new SoundStyle(AssetDirectory.Sound + "ChallengeAltarCongrats");
+	public static SoundStyle ChallengeAltarSpawnWave = new SoundStyle(AssetDirectory.Sound + "ChallengeAltarSpawnWave");
+
 }
