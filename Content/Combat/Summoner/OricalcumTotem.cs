@@ -9,7 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Content.Combat.Weapons.Summoner;
+namespace Pantheon.Content.Combat.Summoner;
 
 public class OrichalcumTotemItem : TotemItem
 {

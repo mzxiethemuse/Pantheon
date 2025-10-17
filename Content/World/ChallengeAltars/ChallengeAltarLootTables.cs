@@ -1,5 +1,5 @@
-using Pantheon.Content.Combat.Accessories.Mage;
-using Pantheon.Content.Combat.Accessories.Summoner;
+using Pantheon.Content.Combat.Mage;
+using Pantheon.Content.Combat.Summoner;
 using Terraria.ID;
 using Terraria.ModLoader;
 

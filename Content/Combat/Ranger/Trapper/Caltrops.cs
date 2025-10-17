@@ -4,11 +4,11 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Content.Combat.Weapons.Ranger.Trapper;
+namespace Pantheon.Content.Combat.Ranger.Trapper;
 
 public class Caltrops : ModProjectile
 {
-	public override string Texture => "Pantheon/Content/Items/Weapons/Ranger/Trapper/Caltrop";
+	public override string Texture => "Pantheon/Content/Combat/Ranger/Trapper/Caltrop";
 	public override void SetDefaults()
 	{
 		Projectile.Size = new Vector2(18, 12);
@@ -36,7 +36,7 @@ public class Caltrops : ModProjectile
 
 public class CaltropsItem : ModItem
 {
-	public override string Texture => "Pantheon/Content/Items/Weapons/Ranger/Trapper/Caltrop";
+	public override string Texture => "Pantheon/Content/Combat/Ranger/Trapper/Caltrop";
 
 	public override void SetDefaults()
 	{

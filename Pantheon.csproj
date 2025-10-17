@@ -21,7 +21,6 @@
 	  <Folder Include="Assets\Projectiles\" />
 	  <Folder Include="Content\Buffs\" />
 	  <Folder Include="Content\Combat\Melee\" />
-	  <Folder Include="Content\Items\Misc\" />
 	  <Folder Include="Content\World\Weald\" />
 	</ItemGroup>
 	<ItemGroup>

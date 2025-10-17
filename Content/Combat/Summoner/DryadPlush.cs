@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Content.Combat.Weapons.Summoner;
+namespace Pantheon.Content.Combat.Summoner;
 
 public class DryadPlushItem : TotemItem
 {

@@ -6,7 +6,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Color = Microsoft.Xna.Framework.Color;
 
-namespace Pantheon.Content.Combat.Accessories.Mage;
+namespace Pantheon.Content.Combat.Mage;
 
 public class ManaOpticDisplay : ModItem
 {

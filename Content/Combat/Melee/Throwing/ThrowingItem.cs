@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Content.Items;
+namespace Pantheon.Content.Combat.Melee.Throwing;
 
 public class ThrowingItem : GlobalItem
 {

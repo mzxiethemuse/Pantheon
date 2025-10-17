@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Content.Combat.Accessories.Mage;
+namespace Pantheon.Content.Combat.Mage;
 
 //running out of mana causes you to overheat / overheating nullifies mana sickness and grants 100 mana over 5 secs / 
 public class Wishbone : ModItem

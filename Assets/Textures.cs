@@ -42,7 +42,7 @@ public class Textures : ILoadable
 	public static readonly Asset<Texture2D> ManaBankOverlay = ModContent.Request<Texture2D>(AssetDirectory.UI + "ManaBankOverlay"); 
 
 	
-	public static readonly Asset<Texture2D> Wishbone = ModContent.Request<Texture2D>("Pantheon/Content/Items/Accessories/Mage/Wishbone");
+	public static readonly Asset<Texture2D> Wishbone = ModContent.Request<Texture2D>("Pantheon/Content/Combat/Mage/Wishbone");
 	public static readonly Asset<Texture2D> WishboneOverlay = ModContent.Request<Texture2D>(AssetDirectory.UI + "WishboneOverlay"); 
 	public static readonly Asset<Texture2D> ManaStarGlowverlay = ModContent.Request<Texture2D>(AssetDirectory.UI + "ManaStarGlowOverlay"); 
 }

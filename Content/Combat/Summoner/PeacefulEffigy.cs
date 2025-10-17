@@ -6,7 +6,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Color = Microsoft.Xna.Framework.Color;
 
-namespace Pantheon.Content.Combat.Accessories.Summoner;
+namespace Pantheon.Content.Combat.Summoner;
 
 public class PeacefulEffigy : ModItem
 {

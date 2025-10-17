@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
 using Pantheon.Common.Utils;
-using Pantheon.Content.Combat.Accessories.Mage;
+using Pantheon.Content.Combat.Mage;
 using Pantheon.Content.General.Dusts;
 using Pantheon.Content.General.Dusts.Bursts;
 using Pantheon.Content.Projectiles;

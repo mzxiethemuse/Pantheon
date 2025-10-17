@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
+using Pantheon.Common.Graphics;
 using Pantheon.Common.Utils;
 using Terraria;
 using Terraria.ModLoader;
@@ -42,28 +43,36 @@ public class Burst : ModDust
         Vector2 size = GetScale(progress, dust) * 16;
 
         var FUCK = (dust.position - Main.screenPosition);
-        Main.spriteBatch.End();
+        // Main.spriteBatch.End();
         // with {A = (byte)alpha}
-        Shaders.Burst.Value.Parameters["Color"].SetValue((dust.GetAlpha(dust.color) * alpha).ToVector4() * 1.1f);
-        if (dust.customData is float data)
-        {
-            Shaders.Burst.Value.Parameters["Intensity"].SetValue(data);
-        }
-        else
-        {
-            Shaders.Burst.Value.Parameters["Intensity"].SetValue(2f);
-        }
-        Shaders.Burst.Value.Parameters["TotalTime"].SetValue(dust.velocity.X);
-        Shaders.Burst.Value.Parameters["uTime"].SetValue(dust.velocity.Y + 1);
 
-        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
-            Main.Rasterizer, Shaders.Burst.Value, Main.GameViewMatrix.TransformationMatrix);
-        Lines.Rectangle(new Rectangle((int)(FUCK.X - size.X), (int)(FUCK.Y - size.Y), (int)
-            (2 * size.X), (int)(2 * size.Y)), Color.White);
-        Main.spriteBatch.End();
 
-        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
-            Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+        ScreenRenderTargets.AddPixelatedRenderCall(() =>
+        {
+            Shaders.Burst.Value.Parameters["Color"].SetValue((dust.GetAlpha(dust.color) * alpha).ToVector4() * 1.1f);
+            if (dust.customData is float data)
+            {
+                Shaders.Burst.Value.Parameters["Intensity"].SetValue(data);
+            }
+            else
+            {
+                Shaders.Burst.Value.Parameters["Intensity"].SetValue(2f);
+            }
+            Shaders.Burst.Value.Parameters["TotalTime"].SetValue(dust.velocity.X);
+            Shaders.Burst.Value.Parameters["uTime"].SetValue(dust.velocity.Y + 1);
+            var matrix = Main.GameViewMatrix.TransformationMatrix;
+            matrix *= 0.5f;
+            matrix.Translation *= 2;
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
+                Main.Rasterizer, Shaders.Burst.Value, matrix);
+            Lines.Rectangle(new Rectangle((int)(FUCK.X - size.X), (int)(FUCK.Y - size.Y), (int)
+                (2 * size.X), (int)(2 * size.Y)), Color.White);
+            Main.spriteBatch.End();
+        });
+
+        //
+        // Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
+        //     Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         ExtraDraw(progress, dust);
             
         

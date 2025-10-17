@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Content.Combat.Accessories.Ranger.Flamethrower;
+namespace Pantheon.Content.Combat.Ranger.Flamethrower;
 
 public class Hairspray : ModItem
 {

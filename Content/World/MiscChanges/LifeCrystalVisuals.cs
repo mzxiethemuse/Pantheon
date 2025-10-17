@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Common.Graphics;
+using Pantheon.Content.General.Dusts;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -10,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace Pantheon.Content.World.MiscChanges;
 
-public class LifeCrystal : GlobalItem
+public class LifeCrystalVisuals : GlobalItem
 {
 	public override bool AppliesToEntity(Item entity, bool lateInstantiation) => entity.type == ItemID.LifeCrystal;
 
@@ -31,7 +32,20 @@ public class LifeCrystal : GlobalItem
 		
 		Lighting.AddLight(item.Center, Color.MediumVioletRed.ToVector3() * 0.55f * Main.essScale); // Makes this item glow when thrown out of inventory.
 	}
-	
+
+	public override bool? UseItem(Item item, Player player)
+	{
+		Burst.SpawnBurstDust(ModContent.DustType<Burst>(), player.Center, 0.5f, new Color(146, 20, 49), 2f, 0.5f, 3f);
+		for (int i = 0; i < 48; i++)
+		{
+			Vector2 velocity = Main.rand.NextVector2CircularEdge(4, 4);
+			Dust.NewDustPerfect(player.Center, DustID.TintableDustLighted, velocity, 0, new Color(146, 20, 49), 2f);
+			Dust.NewDustPerfect(player.Center + velocity * 4, DustID.TintableDustLighted, (velocity * 4).DirectionTo(Vector2.Zero), 0, new Color(146, 20, 49), 2f);
+
+		}
+		return base.UseItem(item, player);
+	}
+
 
 	public override bool PreDrawInWorld(Item item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation,
 		ref float scale, int whoAmI)
