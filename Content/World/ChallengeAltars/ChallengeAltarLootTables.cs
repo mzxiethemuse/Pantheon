@@ -1,5 +1,5 @@
-using Pantheon.Content.Items.Accessories.Mage;
-using Pantheon.Content.Items.Accessories.Summoner;
+using Pantheon.Content.Combat.Accessories.Mage;
+using Pantheon.Content.Combat.Accessories.Summoner;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,6 +14,8 @@ public static class ChallengeAltarLootTables
 		ItemID.ManaCrystal,
 		ItemID.Aglet,
 		ItemID.PortableStool,
+		ItemID.ManaCrystal,
+		(short)ModContent.ItemType<ManaSink>(),
 		(short)ModContent.ItemType<FocusLens>(),
 	];
 
@@ -31,7 +33,8 @@ public static class ChallengeAltarLootTables
 		ItemID.FlurryBoots,
 		ItemID.FlinxFurCoat,
 		ItemID.IceSkates,
-		ItemID.BlizzardinaBottle
+		ItemID.BlizzardinaBottle,
+		(short)ModContent.ItemType<ManaSink>(),
 	];
 
 	public static short[] PreHMJungle =
@@ -60,5 +63,6 @@ public static class ChallengeAltarLootTables
 		ItemID.CrossNecklace,
 		ItemID.PhilosophersStone,
 		ItemID.FastClock,
+		ItemID.TrifoldMap,
 	];
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Pantheon.Assets;
-using Pantheon.Content.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -101,8 +101,8 @@ Items: {
 			'''
 	}
 
-	ManaBankAccessory: {
-		DisplayName: Mana Recycler
+	Azimuth: {
+		DisplayName: Azimuth
 		Tooltip:
 			'''
 			Stores half of used mana
@@ -133,6 +133,11 @@ Items: {
 	ChallengeAltarPlacable: {
 		DisplayName: Challenge Altar Placable
 		Tooltip: You shouldn't have this
+	}
+
+	Nadir: {
+		DisplayName: Nadir
+		Tooltip: ""
 	}
 }
 

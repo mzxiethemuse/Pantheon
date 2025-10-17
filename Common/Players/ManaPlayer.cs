@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
 using Pantheon.Common.Utils;
-using Pantheon.Content.Dusts;
-using Pantheon.Content.Items.Accessories.Mage;
+using Pantheon.Content.Combat.Accessories.Mage;
+using Pantheon.Content.General.Dusts;
+using Pantheon.Content.General.Dusts.Bursts;
 using Pantheon.Content.Projectiles;
 using ReLogic.Graphics;
 using Terraria;
@@ -61,6 +62,7 @@ public class ManaPlayer : ModPlayer
 
 	public int manaBigUnitUsed;
 	public bool focuslens;
+	public bool nadir;
 
 	public override void Load()
 	{
@@ -86,6 +88,7 @@ public class ManaPlayer : ModPlayer
 		pincushion = false;
 		athame = false;
 		manabank = false;
+		nadir = false;
 		wishbone = false;
 		displayManaUsage = false;
 		displayManaRegenTicks = false;

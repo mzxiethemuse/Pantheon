@@ -1,5 +1,5 @@
-using Pantheon.Content.Items.Accessories.Summoner;
-using Pantheon.Content.Items.Weapons.Summoner;
+using Pantheon.Content.Combat.Accessories.Summoner;
+using Pantheon.Content.Combat.Weapons.Summoner;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

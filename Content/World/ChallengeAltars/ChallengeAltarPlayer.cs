@@ -9,7 +9,7 @@ public class ChallengeAltarPlayer : ModPlayer
 {
 	public Color GetAltarFirePrimaryColor()
 	{
-		if (Player.ZoneForest) return Color.ForestGreen * 4f;
+		if (Player.ZoneForest) return new Color(17, 77, 72);
 		if (Player.ZoneUndergroundDesert) return Color.DarkGoldenrod;
 		if (Player.ZoneNormalUnderground) return Color.SaddleBrown; 
 		if (Player.ZoneCorrupt) return Color.MediumOrchid * 0.5f;
@@ -24,7 +24,7 @@ public class ChallengeAltarPlayer : ModPlayer
 	
 	public Color GetAltarFireSecondaryColor()
 	{
-		if (Player.ZoneForest) return Color.DarkGreen * 3f;
+		if (Player.ZoneForest) return new Color(184, 259, 156) * 0.5f;
 		if (Player.ZoneUndergroundDesert) return Color.Khaki * 0.5f;
 		if (Player.ZoneNormalUnderground) return Color.SandyBrown * 0.5f;
 		if (Player.ZoneNormalCaverns) return Color.DarkSlateBlue; 

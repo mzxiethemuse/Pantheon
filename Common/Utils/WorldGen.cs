@@ -18,7 +18,7 @@ public abstract class WorldGenTask : GenPass {
     {
     }
 
-    protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
+    public override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
     {
         Apply(progress, configuration);
     }

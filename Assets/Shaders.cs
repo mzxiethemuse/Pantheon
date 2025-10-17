@@ -57,6 +57,13 @@ public class Shaders : ILoadable
 	/// takes 2 inputs : float[9] kernel, float distance (100-300)
 	/// </summary>
 	public static readonly Asset<Effect> GaussianBlur = ModContent.Request<Effect>(AssetDirectory.Shaders + "GaussianBlur", AssetRequestMode.ImmediateLoad);
+	
+	/// <summary>
+	/// float2 textureSize;
+	/// </summary>
+	public static readonly Asset<Effect> Outline = ModContent.Request<Effect>(AssetDirectory.Shaders + "Outline", AssetRequestMode.ImmediateLoad);
+	public static readonly Asset<Effect> SolidColor = ModContent.Request<Effect>(AssetDirectory.Shaders + "SolidColor", AssetRequestMode.ImmediateLoad);
+	public static readonly Asset<Effect> ColorQuantize = ModContent.Request<Effect>(AssetDirectory.Shaders + "ColorQuantize", AssetRequestMode.ImmediateLoad);
 
 	/// <summary>
 	/// this ones a doozy
@@ -68,6 +75,7 @@ public class Shaders : ILoadable
 
 	public static void SetUpFireShader(Color a, Color b, float alpha, float speed = 0.02f)
 	{
+		Fire.Value.Parameters["colorlevels"].SetValue(8);
 		Fire.Value.Parameters["colorA"].SetValue(a.ToVector4());
 		Fire.Value.Parameters["colorB"].SetValue(b.ToVector4());
 		Fire.Value.Parameters["uTime"].SetValue((float)Main.timeForVisualEffects * speed);

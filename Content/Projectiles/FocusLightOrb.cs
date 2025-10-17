@@ -2,7 +2,7 @@ using System;
 using Microsoft.Build.Construction;
 using Microsoft.Xna.Framework;
 using Pantheon.Assets;
-using Pantheon.Content.Dusts;
+using Pantheon.Content.General.Dusts;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

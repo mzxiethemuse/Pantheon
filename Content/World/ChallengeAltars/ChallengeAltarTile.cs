@@ -150,7 +150,7 @@ public class ChallengeAltarTile : ModTile
 					
 					spriteBatch.Draw(CrystalTexture.Value,
 						pos,
-						new Rectangle(0, 46 * frameY, 28, 46), player.GetAltarFirePrimaryColor() with { A = 155 }, 0f,
+						new Rectangle(0, 46 * frameY, 28, 46), player.GetAltarFireSecondaryColor() with { A = 200 }, 0f,
 						new Vector2(14, 23), Vector2.One, SpriteEffects.None, 0f);
 
 

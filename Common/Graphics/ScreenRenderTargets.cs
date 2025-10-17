@@ -45,9 +45,9 @@ public class ScreenRenderTargets : ILoadable
 		{
 			return;
 		}
-		Shaders.GaussianBlur.Value.Parameters["distance"].SetValue(800f);
+		Shaders.ColorQuantize.Value.Parameters["levels"].SetValue(9);
 		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer,
-			null, Matrix.Identity);//Main.GameViewMatrix.TransformationMatrix);
+			Shaders.ColorQuantize.Value, Matrix.Identity);//Main.GameViewMatrix.TransformationMatrix);
 
 		// Lines.Rectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red);
 		// Main.spriteBatch.Draw(renderTarget, new Vector2(Main.screenWidth, Main.screenHeight) / 2, Color.White);
@@ -63,7 +63,7 @@ public class ScreenRenderTargets : ILoadable
 		var oldRTs = gd.GetRenderTargets();
 		gd.SetRenderTarget(renderTarget);
 		gd.Clear(Color.Transparent);
-
+		
 		foreach (var act in actions)
 		{
 			act.Invoke();

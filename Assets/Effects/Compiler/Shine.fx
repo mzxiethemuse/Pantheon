@@ -8,7 +8,7 @@ float uTime;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(uImage0, coords);
-    float brightness = sin(6 * (coords.x + coords.y) + uTime);
+    float brightness = sin(-6 * coords.x + 4 * coords.y + uTime);
     color += (float4(1, 1, 1, 1) * clamp(brightness, 0, 1) * 0.35 * color.a);
     return color;
 }
