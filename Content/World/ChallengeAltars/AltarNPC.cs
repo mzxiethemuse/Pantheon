@@ -42,6 +42,7 @@ public class AltarNPC : GlobalNPC
 
 		Main.graphics.GraphicsDevice.Textures[1] = Textures.Noise.Value;
 		Main.spriteBatch.End();
+		SpriteBatchSnapshot snapshot = new(Main.spriteBatch);
 		if (!behindtiles)
 		{
 			foreach (var npc in Main.npc.Where(npc => npc.active && npc.GetGlobalNPC<AltarNPC>().partOfAltarChallenge))
@@ -83,7 +84,7 @@ public class AltarNPC : GlobalNPC
 				// Main.spriteBatch.End();
 			}
 		}
-		Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+		Main.spriteBatch.BeginFromSnapshot(snapshot);
 	}
 
 	public override void OnKill(NPC npc)

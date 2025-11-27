@@ -219,7 +219,6 @@ public class ManaPlayer : ModPlayer
 		{
 			if (Player == Main.LocalPlayer)
 			{
-				//TODO: IMPL CUSTOM PROEJCTILE
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center,
                 	Player.Center.DirectionTo(Main.MouseWorld) * 7f, ModContent.ProjectileType<FocusLightOrb>(), 10, 1f, Player.whoAmI, Main.rand.NextFloat(-2, 2));
 			}
@@ -313,7 +312,7 @@ public class ManaPlayer : ModPlayer
 			manaToRegen = amount;
 			if (manastorm)
 			{
-				SoundEngine.PlaySound(Sounds.DreamcatcherMana.WithVolumeScale(0.2f), Player.Center);
+				SoundEngine.PlaySound(Sounds.DreamcatcherMana.WithVolumeScale(0.7f), Player.Center);
 				for (int i = 0; i < 7; i++)
 				{
 					Dust.NewDustDirect(Player.position, Player.width, Player.height, ModContent.DustType<Dirt>(), 2, 2, 0, Color.Blue * 0.2f, Main.rand.NextFloat(4f, 8f));
@@ -401,7 +400,7 @@ public class ManaPlayer : ModPlayer
 		Shaders.Scanline.Value.Parameters["uColor"].SetValue((Color.CornflowerBlue * 0.25f).ToVector4() );
 		
 		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer, Shaders.Scanline.Value, Main.GameViewMatrix.TransformationMatrix);
-		Lines.Rectangle(new Rectangle(0, 0, _manaOpticRT.Width, _manaOpticRT.Height), Color.White);		
+		DebugLines.Rectangle(new Rectangle(0, 0, _manaOpticRT.Width, _manaOpticRT.Height), Color.White);		
 		
 		Main.spriteBatch.End();
 

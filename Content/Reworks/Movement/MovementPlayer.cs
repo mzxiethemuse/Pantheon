@@ -1,8 +1,7 @@
 using System;
-using Terraria;
 using Terraria.ModLoader;
 
-namespace Pantheon.Common.Players;
+namespace Pantheon.Content.Reworks.Movement;
 
 // You ain't nothing but a broke Boy Boy Boy Boy
 public class MovementPlayer : ModPlayer
@@ -11,9 +10,10 @@ public class MovementPlayer : ModPlayer
 	private bool wasSliding = false;
 	public override void ResetEffects()
 	{
+		base.ResetEffects();
 		Player.extraAccessory = true;
 		Player.extraAccessorySlots = Math.Max(2, Player.extraAccessorySlots);
-		base.ResetEffects();
+		
 	}
 
 	public override void PostUpdateEquips()
@@ -62,7 +62,14 @@ public class MovementPlayer : ModPlayer
 		wasSliding = Player.sliding;
 		base.PreUpdateMovement();
 	}
-	
+
+
+	public override void PostUpdateRunSpeeds()
+	{
+		Player.accRunSpeed = (Math.Abs(Player.accRunSpeed - 3f) < 0.02f) ? 4f : Player.accRunSpeed;
+		base.PostUpdateRunSpeeds();
+	}
+
 	public override void ModifyExtraJumpDurationMultiplier(ExtraJump jump, ref float duration) {
 		// Make the jump duration last for 2x longer than normal
 		if (jump == ExtraJump.SandstormInABottle || jump == ExtraJump.BlizzardInABottle)

@@ -12,7 +12,7 @@ public class HookChanges : GlobalProjectile
 
 	public override void SetDefaults(Projectile entity)
 	{
-		entity.extraUpdates = 3;
+		entity.extraUpdates += 2;
 		base.SetDefaults(entity);
 	}
 

@@ -2,8 +2,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
 using Pantheon.Common;
+using Pantheon.Common.Players;
+using Pantheon.Content.Combat.Melee;
+using Pantheon.Content.Combat.Melee.Spears;
 using Pantheon.Content.General.Dusts;
+using Pantheon.Content.World.ChallengeAltars;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,9 +26,11 @@ namespace Pantheon.Content.Items
 			Item.DamageType = DamageClass.Melee;
 			Item.width = 40;
 			Item.height = 40;
-			Item.useTime = 20;
-			Item.useAnimation = 20;
-			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 48;
+			Item.useAnimation = 48;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Rapier;
 			Item.knockBack = 6;
 			Item.value = Item.buyPrice(silver: 1);
 			Item.rare = ItemRarityID.Blue;
@@ -35,7 +42,7 @@ namespace Pantheon.Content.Items
 		public override bool? UseItem(Player player)
 		{
 			Burst.SpawnBurstDust(ModContent.DustType<Burst>(), Main.MouseWorld, 0.5f, Color.Aquamarine * 1f, 4f, 0.9f, 3f);
-
+			// AltarGeneration.TryGenerateAltarAtPos(Main.MouseWorld.ToTileCoordinates());
 			return true;
 		}
 

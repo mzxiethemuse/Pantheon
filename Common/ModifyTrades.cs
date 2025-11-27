@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace Pantheon.Common;
 
+// this shit so asssssss
 public class DryadTrades : GlobalNPC
 {
 	public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => entity.type == NPCID.Dryad;

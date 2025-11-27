@@ -6,7 +6,8 @@ using Terraria.GameContent;
 
 namespace Pantheon.Common.Utils;
 
-public static class Lines
+// completely useless class but i like using it for debugging stuff quickly
+public static class DebugLines
 {
     public static void Line(Vector2 start, Vector2 end, Color color, int thickness)
     {

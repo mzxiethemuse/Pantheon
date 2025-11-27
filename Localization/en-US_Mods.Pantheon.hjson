@@ -20,7 +20,7 @@ Items: {
 	}
 
 	DebugRod: {
-		DisplayName: Debug Rod
+		DisplayName: Ice pick
 		Tooltip: ""
 	}
 
@@ -151,6 +151,9 @@ Projectiles: {
 	Platfortle.DisplayName: Platfortle
 	InfiniPlatfortle.DisplayName: Infini-Platfortle
 	FocusLightOrb.DisplayName: Light Orb
+	GenericSpear.DisplayName: Generic Spear
+	SpearWeaponProjectile.DisplayName: Spear Weapon Projectile
+	VanillaSpear.DisplayName: Vanilla Spear
 }
 
 Buffs: {

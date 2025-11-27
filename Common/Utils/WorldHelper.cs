@@ -44,28 +44,22 @@ public static class WorldHelper
     /// <param name="maxTravel"></param>
     /// <param name="tries"></param>
     /// <param name="iDoCrystalMeth">The function to run. Return true on success to end the tries.</param>
-    public static void TryAtVariousPointsAlongX(int xbound, int minTravel, int maxTravel, int tries, Func<int, bool> iDoCrystalMeth)
+    public static void TryAtVariousPointsAlongX(int xbound, int minTravel, int maxTravel, Func<int, bool> iDoCrystalMeth)
     {
+        // note to self: we literally never use the return value of the function. wtf man
         for (int x = xbound; x < Main.maxTilesX - xbound; x += WorldGen.genRand.Next(minTravel, maxTravel))
         {
-            for (int retry = 0; retry < tries; retry++)
-            {
-                if (iDoCrystalMeth.Invoke(x))
-                {
-                    break;
-                }
-            }
+            iDoCrystalMeth.Invoke(x);
         }
     }
     
-    public static void TryAtVariousPointsAlongXinBounds(int minX, int maxX, int minTravel, int maxTravel, int tries, Func<int, bool> iDoCrystalMeth)
+    public static void TryAtVariousPointsAlongXinBounds(int minX, int maxX, int minTravel, int maxTravel, Func<int, bool> iDoCrystalMeth)
     {
         for (int x = minX; x < maxX; x += WorldGen.genRand.Next(minTravel, maxTravel))
         {
-            for (int retry = 0; retry < tries; retry++)
-            {
-                if (iDoCrystalMeth.Invoke(x)) return;
-            }
+
+            if (iDoCrystalMeth.Invoke(x)) return;
+            
         }
     }
 
@@ -86,14 +80,6 @@ public static class WorldHelper
         return new Point(-1, -1);
     }
 
-    public static void AddTask(List<GenPass> tasks, WorldGenTask task)
-    {
-        int stepIndex = tasks.FindIndex(genpass => genpass.Name.Equals(task.PlaceToInsert));
-        if (stepIndex != -1) {
-            tasks.Insert(stepIndex + 1, task);
-        }
-    }
-
     public static Point FindSurfaceTileAtX(int i, ushort type)
     {
         Point o = new Point(-1, -1);
@@ -108,5 +94,6 @@ public static class WorldHelper
 
         return o;
     }
+    
     
 }

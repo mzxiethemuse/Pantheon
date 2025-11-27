@@ -9,7 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Content.World.MiscChanges;
+namespace Pantheon.Content.Reworks.Visual;
 
 public class LifeCrystalVisuals : GlobalItem
 {
@@ -35,12 +35,13 @@ public class LifeCrystalVisuals : GlobalItem
 
 	public override bool? UseItem(Item item, Player player)
 	{
+		if (!player.ItemAnimationJustStarted) return base.UseItem(item, player);
 		Burst.SpawnBurstDust(ModContent.DustType<Burst>(), player.Center, 0.5f, new Color(146, 20, 49), 2f, 0.5f, 3f);
 		for (int i = 0; i < 48; i++)
 		{
-			Vector2 velocity = Main.rand.NextVector2CircularEdge(4, 4);
+			Vector2 velocity = Main.rand.NextVector2Circular(4, 4);
 			Dust.NewDustPerfect(player.Center, DustID.TintableDustLighted, velocity, 0, new Color(146, 20, 49), 2f);
-			Dust.NewDustPerfect(player.Center + velocity * 4, DustID.TintableDustLighted, (velocity * 4).DirectionTo(Vector2.Zero), 0, new Color(146, 20, 49), 2f);
+			Dust.NewDustPerfect(player.Center + velocity * 16, DustID.TintableDustLighted, (velocity * 4).DirectionTo(Vector2.Zero), 0, new Color(146, 20, 49), 2f);
 
 		}
 		return base.UseItem(item, player);

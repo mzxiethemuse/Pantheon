@@ -32,12 +32,16 @@ public class Textures : ILoadable
 	public static readonly Asset<Texture2D> GenericItem = ModContent.Request<Texture2D>(AssetDirectory.Placeholder + "GenericItem"); 
 	public static readonly Asset<Texture2D> VFXExplosion = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "Explosion"); 
 	public static readonly Asset<Texture2D> VFXDirt = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "dirt_01");
+	public static readonly Asset<Texture2D> VFXLightStar = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "star");
+	public static readonly Asset<Texture2D> VFXSoftGlow = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "SoftGlowUnmultiplied");
+
 	public static readonly Asset<Texture2D> Noise = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "NoiseTexture");
 
 	public static Asset<Texture2D>[] VFXSmoke = new Asset<Texture2D>[6];
 	public static Asset<Texture2D>[] VFXWaterBad = new Asset<Texture2D>[3];
 
-	
+	public static readonly Asset<Texture2D> Beatles = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "beatles"); 
+
 	public static readonly Asset<Texture2D> ManaOpticDisplayBG = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "ManaOpticRectangleOh Yeah"); 
 	public static readonly Asset<Texture2D> ManaBankOverlay = ModContent.Request<Texture2D>(AssetDirectory.UI + "ManaBankOverlay"); 
 

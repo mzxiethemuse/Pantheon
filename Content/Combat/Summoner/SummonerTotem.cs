@@ -3,16 +3,16 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
+using Pantheon.Common;
 using Pantheon.Common.Utils;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace Pantheon.Common.Templates;
+namespace Pantheon.Content.Combat.Summoner;
 
 public abstract class SummonerTotem : ModProjectile
 {
@@ -143,7 +143,7 @@ public abstract class SummonerTotem : ModProjectile
 
 		Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
 			Main.Rasterizer, Shaders.Burst.Value, Main.GameViewMatrix.TransformationMatrix);
-		Lines.Rectangle(new Rectangle(
+		DebugLines.Rectangle(new Rectangle(
 			(int)(center.X - range / 2), (int)(center.Y - range / 2),
 			(int)range, (int)range), Color.White * 0f);
 		Main.spriteBatch.End();

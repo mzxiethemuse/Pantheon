@@ -28,7 +28,7 @@ public class ChallengeAltarSystem : ModSystem
 	private bool sendDebugMsgs = true;
 	
 	public Point activeAltar;
-	public short[] activeAltarLoot;
+	public short[] activeAltarLoot = new short[1];
 	public Vector2 altarPositionWorld => activeAltar.ToWorldCoordinates(16 * 1.5f, 16 * 2);
 	public bool isAltarActive;
 	
@@ -85,6 +85,7 @@ public class ChallengeAltarSystem : ModSystem
 	{
 		if (isAltarActive)
 		{
+			
 			timeToPreventStuck++;
 			if (timeToPreventStuck > (60 * 5))
 			{
@@ -93,6 +94,32 @@ public class ChallengeAltarSystem : ModSystem
 					enemiesLeft = 0;
 					timeToPreventStuck = 0;
 				}
+
+				if (timeToPreventStuck > (60 * 8) && Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					if (Main.player.Count(player =>
+						    player.active && !player.dead && player.Distance(altarPositionWorld) < 1600) == 0)
+					{
+						isAltarActive = false;
+						if (Main.netMode == NetmodeID.Server)
+                        {
+                        	SendSyncPacket(new Point(0, 0), false);
+                        }
+
+						foreach (var npc in Main.npc.Where(npc => npc.active && npc.GetGlobalNPC<AltarNPC>().partOfAltarChallenge))
+						{
+							npc.active = false;
+							npc.netUpdate = true;
+							for (int i = 0; i < 8; i++)
+							{
+								Vector2 offset = Main.rand.NextVector2Circular(75, 75);
+								Dust.NewDustPerfect(npc.Center + offset,
+									DustID.TintableDustLighted, offset.DirectionTo(Vector2.Zero),0, Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFirePrimaryColor(), 0.5f);
+							}
+						}
+					}
+				}
+				
 			}
 
 			if (enemiesLeft == 0)
@@ -131,7 +158,6 @@ public class ChallengeAltarSystem : ModSystem
 								Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFirePrimaryColor(), 0.7f);
 						}
 					}
-
 				}
 				
 				timeUntilNextWave--;
@@ -155,7 +181,7 @@ public class ChallengeAltarSystem : ModSystem
 							NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, activeAltar.X, activeAltar.Y);
 							SendSyncPacket(new Point(0, 0), false);
 						}
-
+						
 						if (Main.netMode != NetmodeID.Server)
 						{
 							Burst.SpawnBurstDust(ModContent.DustType<Burst>(), altarPositionWorld, 0.75f, Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFirePrimaryColor(), 8f, 0.9f);

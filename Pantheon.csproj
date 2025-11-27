@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Tomat.Terraria.ModLoader.Sdk/1.0.6">
 
 	<!-- Import tModLoader mod properties -->
 	<Import Project="..\tModLoader.targets" />
@@ -20,7 +20,7 @@
 	<ItemGroup>
 	  <Folder Include="Assets\Projectiles\" />
 	  <Folder Include="Content\Buffs\" />
-	  <Folder Include="Content\Combat\Melee\" />
+	  <Folder Include="Content\World\Reworks\" />
 	  <Folder Include="Content\World\Weald\" />
 	</ItemGroup>
 	<ItemGroup>
@@ -31,6 +31,7 @@
 	</ItemGroup>
 
 	<!--	Shhh.... snippet... Taken from AllBeginnings repo... https://github.com/mayli4/AllBeginningsMod/blob/main/src/AllBeginningsMod/AllBeginningsMod.csproj -->
+	<!-- sorry math! sorry tobias! -->
 	<ItemGroup Label="Publicized assemblies">
 		<!-- It's reasonable to publicize tModLoader.  Don't include
              compiler-generated members since it breaks events and some other

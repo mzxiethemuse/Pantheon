@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace Pantheon.Common;
 
-//Not To Be Confused With Jane
+//Not To Be Confused With Jane (of remover fame)
 public class ItemRemover : ModSystem
 {
 	public static int[] ItemsToRemove =

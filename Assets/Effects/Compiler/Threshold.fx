@@ -8,7 +8,9 @@ float threshold;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(uImage0, coords);
-	color.a *= (color.a > threshold);
+	float factor = (((color.r + color.g + color.b) / 3) > threshold);
+	color *= factor;
+	color.a = factor;
 	return color;
 }
 

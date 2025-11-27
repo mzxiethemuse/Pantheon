@@ -11,11 +11,14 @@ using Terraria.ModLoader;
 
 namespace Pantheon.Common.Graphics;
 
+
+
 public class OutlineRenderTarget : ILoadable
 {
 	public RenderTarget2D renderTarget;
 	List<OutlineDrawAction> actions;
 	public event Action PreRenderOutlines;
+	public event Action<Matrix> RenderToOutlineTarget;
 
 	public static void AddAction(OutlineDrawAction action)
 	{
@@ -37,13 +40,18 @@ public class OutlineRenderTarget : ILoadable
 			});
 		}
 		// i dont know why we use "CheckMonoliths", but that's where we hook into to draw things *to* the RT
-		On_Main.CheckMonoliths += DrawToRT;
+		// On_Main.CheckMonoliths += DrawToRT;
 		On_Main.DrawNPCs += DrawRTToScreen;
 	}
 
 	private void DrawRTToScreen(On_Main.orig_DrawNPCs orig, Main self, bool behindTiles)
 	{
 		orig.Invoke(self, behindTiles);
+		RenderTargetUtils.EnsureContentsArePreserved(Main.graphics.GraphicsDevice.GetRenderTargets());
+		
+		Main.spriteBatch.End();
+		DrawToRT(null);
+		Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 		if (!behindTiles)
 		{
@@ -53,6 +61,8 @@ public class OutlineRenderTarget : ILoadable
 			{
 				return;
 			}
+
+			Shaders.Outline.Value.Parameters["staticColor"].SetValue(new Vector4(0f, 0f, 0f, 0f));
 
 			Shaders.Outline.Value.Parameters["textureSize"].SetValue(renderTarget.Size());
 			Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
@@ -78,14 +88,16 @@ public class OutlineRenderTarget : ILoadable
 
 	}
 
-	private void DrawToRT(On_Main.orig_CheckMonoliths orig)
+	private void DrawToRT(On_Main.orig_CheckMonoliths? orig)
 	{
-		orig.Invoke();
+		orig?.Invoke();
 		var gd = Main.graphics.GraphicsDevice;
 		var oldRTs = gd.GetRenderTargets();
+		
 		gd.SetRenderTarget(renderTarget);
 		gd.Clear(Color.Transparent);
 
+		
 		PreRenderOutlines?.Invoke();
 		
 		Dictionary<Color, List<OutlineDrawAction>> sortedActions = new Dictionary<Color, List<OutlineDrawAction>>();
@@ -101,13 +113,14 @@ public class OutlineRenderTarget : ILoadable
 				sortedActions.Add(act.Color, new List<OutlineDrawAction>() { act });
 			}
 		}
-
+		
+		Matrix matrix = Main.GameViewMatrix.TransformationMatrix * Matrix.CreateScale(0.5f, 0.5f, 1f);
+		matrix.Translation *= new Vector3(2f, 2f, 1f);
 		foreach (var list in sortedActions)
 		{
 			Shaders.SolidColor.Value.Parameters["ucolor"].SetValue(list.Key.ToVector4());
 
-			Matrix matrix = Main.GameViewMatrix.TransformationMatrix * Matrix.CreateScale(0.5f, 0.5f, 1f);
-			matrix.Translation *= new Vector3(2f, 2f, 1f);
+			
 			
 			Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
 				Main.Rasterizer,
@@ -122,8 +135,8 @@ public class OutlineRenderTarget : ILoadable
 				}
 				else if (action.NPCWhoAmI == -1)
 				{
-					Main.spriteBatch.Draw(action.Texture.Value, (action.Position - Main.screenPosition),
-						action.Frame, Color.White, action.Rotation, action.Frame.Size() / 2, Vector2.One,
+					Main.spriteBatch.Draw(action.Texture, (action.Position),
+						action.Frame, Color.White, action.Rotation, action.Frame.Size() / 2, action.Scale,
 						action.Effect, 0f);
 				}
 				else
@@ -131,9 +144,10 @@ public class OutlineRenderTarget : ILoadable
 					Main.instance.DrawNPC(action.NPCWhoAmI, false);
 				}
 			}
+			
 			Main.spriteBatch.End();
-
 		}
+		RenderToOutlineTarget?.Invoke(matrix);
 
 		// idk if this does anything, memorywise
 		// sortedActions = null;
@@ -159,19 +173,21 @@ public class OutlineRenderTarget : ILoadable
 
 	public void Unload()
 	{
+		
 	}
 	
 }
 
 public readonly struct OutlineDrawAction
 {
-	public OutlineDrawAction(ref Asset<Texture2D> texture, Vector2 position, float rotation, Rectangle frame, SpriteEffects effect, Color color)
+	public OutlineDrawAction(Texture2D texture, Vector2 position, float rotation = 0f, Rectangle? frame = null, SpriteEffects effect = SpriteEffects.None, Color color = default, float scale = 1f)
 	{
 		Position = position;
 		Rotation = rotation;
-		Frame = frame;
+		if (frame != null) Frame = (Rectangle)frame;
 		Effect = effect;
 		Color = color;
+		Scale = scale;
 		Texture = texture;
 	}
 
@@ -197,5 +213,6 @@ public readonly struct OutlineDrawAction
 	public Rectangle Frame { get; }
 	public SpriteEffects Effect { get; }
 	public Color Color { get; }
-	public Asset<Texture2D> Texture { get; }
+	public float Scale { get; }
+	public Texture2D Texture { get; }
 }

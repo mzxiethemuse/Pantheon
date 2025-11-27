@@ -57,7 +57,8 @@ public class Shaders : ILoadable
 	/// takes 2 inputs : float[9] kernel, float distance (100-300)
 	/// </summary>
 	public static readonly Asset<Effect> GaussianBlur = ModContent.Request<Effect>(AssetDirectory.Shaders + "GaussianBlur", AssetRequestMode.ImmediateLoad);
-	
+	public static readonly Asset<Effect> GaussianBlur2 = ModContent.Request<Effect>(AssetDirectory.Shaders + "BlurScreenShaderData", AssetRequestMode.ImmediateLoad);
+
 	/// <summary>
 	/// float2 textureSize;
 	/// </summary>

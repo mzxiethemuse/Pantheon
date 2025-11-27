@@ -19,5 +19,9 @@ public class Sounds : ILoadable
 
 	public static SoundStyle ChallengeAltarFinish = new SoundStyle(AssetDirectory.Sound + "ChallengeAltarCongrats");
 	public static SoundStyle ChallengeAltarSpawnWave = new SoundStyle(AssetDirectory.Sound + "ChallengeAltarSpawnWave");
+	
+	
+	public static SoundStyle Lobotomy = new SoundStyle(AssetDirectory.Sound + "Lobotomy Sound Effect (DOWNLOAD)");
 
+	
 }

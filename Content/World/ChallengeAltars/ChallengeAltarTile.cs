@@ -44,7 +44,7 @@ public class ChallengeAltarTile : ModTile
 
 		public override IEnumerable<Item> GetItemDrops(int i, int j)
 		{
-
+			if (ChallengeAltarSystem.Instance.activeAltarLoot == null) yield break;
 			for (int k = 0; k < ChallengeAltarSystem.Instance.activeAltarLoot.Length; k++)
 			{
 				yield return new Item(ChallengeAltarSystem.Instance.activeAltarLoot[k], 1);
@@ -112,7 +112,7 @@ public class ChallengeAltarTile : ModTile
 
 				if (ChallengeAltarSystem.Instance.isAltarActive && ChallengeAltarSystem.Instance.activeAltar == new Point(i, j))
 				{
-					ScreenRenderTargets.AddPixelatedRenderCall(() =>
+					PixelationRenderTarget.AddPixelatedRenderAction(() =>
 					{
 						var t = Textures.Noise.Value;
 						// var color = Lighting.GetColor(i,j, Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFireColor());
@@ -236,7 +236,7 @@ public class ChallengeAltarEntity : ModTileEntity
 		{
 			// there is always a life crystal as a loot drop in PreHM
 			loot.Add(ItemID.LifeCrystal);
-			for (int i = 0; i < Main.rand.Next(1, 3); i++)
+			for (int i = 0; i < Main.rand.Next(1, 2); i++)
 			{
 
 				short choice = -1;
@@ -262,9 +262,7 @@ public class ChallengeAltarEntity : ModTileEntity
 					}
 				}
 				loot.Add(choice);
-				
 			}
-
 		}
 		else
 		{

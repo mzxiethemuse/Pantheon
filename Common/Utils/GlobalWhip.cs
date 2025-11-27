@@ -1,5 +1,7 @@
 using Pantheon.Common.Templates;
+using Pantheon.Content.Combat.Summoner;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,6 +27,7 @@ public class GlobalWhip : GlobalProjectile
                 }
             }
         }
+        
         
         base.AI(projectile);
     }

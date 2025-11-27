@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Pantheon.Common.Templates;
+namespace Pantheon.Content.Combat.Summoner;
 
 public abstract class Minion : ModProjectile
 {

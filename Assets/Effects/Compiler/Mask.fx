@@ -1,5 +1,5 @@
 sampler uImage0 : register(s0);
-float4 ucolor;
+sampler uImage1 : register(s1);
 
 
 
@@ -8,8 +8,8 @@ float4 ucolor;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(uImage0, coords);
-
-	return ucolor * (color.a > 0);
+	float4 mask = tex2D(uImage1, coords);
+	return color * (mask > float4(0, 0, 0, 0));
 }
 
 technique Technique1
