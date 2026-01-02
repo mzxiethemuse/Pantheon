@@ -27,7 +27,7 @@ public class Wishbone : ModItem
 
 	public override void UpdateEquip(Player player)
 	{
-		player.ManaPlayer().wishbone = true;
+		player.ManaPlayer.wishbone = true;
 		
 		base.UpdateEquip(player);
 	}

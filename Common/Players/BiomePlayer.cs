@@ -5,6 +5,7 @@ namespace Pantheon.Common.Players;
 public class BiomePlayer : ModPlayer
 {
 	public bool Underground => Player.ZoneDirtLayerHeight || Player.ZoneRockLayerHeight;
+	public bool Hell => Player.ZoneUnderworldHeight;
 	private VanillaBiome? _biome;
 	public VanillaBiome Biome
 	{
@@ -17,6 +18,8 @@ public class BiomePlayer : ModPlayer
 			}
 			return (VanillaBiome)_biome;
 		}
+		
+		
 	}
 
 	public override void PreUpdate()
@@ -51,6 +54,7 @@ public enum VanillaBiome
 	Desert,
 	Jungle,
 	Snow,
+	Hell
 }
 
 public enum PurityBiome

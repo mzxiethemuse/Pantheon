@@ -5,11 +5,17 @@ using Terraria.ID;
 
 namespace Pantheon.Content.World.ChallengeAltars;
 
+/// <summary>
+/// If i was a normal person and not a chud this would be defined in like, json or some shit dude
+/// FUCK MY STUPID CHUD PUPPY LIFE
+/// </summary>
 public partial class ChallengeAltarSpawnPools
 {
-	public static List<NPCChallengeSpawn>? GetPool(VanillaBiome biome, PurityBiome purity, bool underground, bool hm)
+	public static List<NPCChallengeSpawn>? GetPool(VanillaBiome biome, PurityBiome purity, bool underground, bool hell, bool hm)
 	{
+
 		int index = (int)biome + (underground ? 10 : 0);
+		index = !hell ? index : 666;
 		if (hm)
 		{
 			return (List<NPCChallengeSpawn>)PreHMPools[index].Concat(HMPools[(int)index]);
@@ -63,6 +69,11 @@ public partial class ChallengeAltarSpawnPools
 			[10 + (int)VanillaBiome.Desert] = [
 				new(NPCID.FlyingAntlion, 10, 15),
 				new(NPCID.WalkingAntlion, 10, 10),
+			],
+			[666] = [
+				new(NPCID.Demon, 10, 15),
+				new(NPCID.FireImp, 8, 17),
+				new(NPCID.Hellbat, 10, 10)
 			]
 		}; 
 	
@@ -86,6 +97,12 @@ public partial class ChallengeAltarSpawnPools
 
 				new(NPCID.DesertDjinn, 15, 30)
 
+			],
+			[666] = [
+				new(NPCID.Demon, 10, 10),
+                new(NPCID.FireImp, 25, -10),
+                new(NPCID.Lavabat, 10, 14),
+				new(NPCID.RedDevil, 4, 8)
 			]
 		}; 
 }

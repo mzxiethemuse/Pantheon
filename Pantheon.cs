@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
+global using Shaders = Pantheon.Core.AssetReferences.Assets.Effects.Compiler;
+global using Assets = Pantheon.Core.AssetReferences.Assets;
+global using Sounds = Pantheon.Core.AssetReferences.Assets.Sfx;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Pantheon.Common;
 using Pantheon.Content.World.ChallengeAltars;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
+
 
 namespace Pantheon
 {

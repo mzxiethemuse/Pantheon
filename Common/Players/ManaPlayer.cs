@@ -145,7 +145,7 @@ public class ManaPlayer : ModPlayer
 	{
 		if (hollowRock && pincushion)
 		{
-			if (Player.ManaPlayer().pincushion)
+			if (Player.ManaPlayer.pincushion)
 			{
 				Player.GetDamage(DamageClass.Magic) += 0.35f *
 				                                       ((Player.statLifeMax2 - Player.statLife) /
@@ -245,7 +245,7 @@ public class ManaPlayer : ModPlayer
 			{
 				Player.statMana += storedInBank;
 				storedInBank = 0;
-				SoundEngine.PlaySound(Sounds.ManaBankRestore.WithVolumeScale(0.7f), Player.Center);
+				SoundEngine.PlaySound(Sounds.ManaBankRestore.Asset.WithVolumeScale(0.7f), Player.Center);
 				if (wishbone)
 				{
 					DoWishboneCrackEffect();
@@ -312,7 +312,7 @@ public class ManaPlayer : ModPlayer
 			manaToRegen = amount;
 			if (manastorm)
 			{
-				SoundEngine.PlaySound(Sounds.DreamcatcherMana.WithVolumeScale(0.7f), Player.Center);
+				SoundEngine.PlaySound(Sounds.DreamcatcherSoundShit.Asset.WithVolumeScale(0.7f), Player.Center);
 				for (int i = 0; i < 7; i++)
 				{
 					Dust.NewDustDirect(Player.position, Player.width, Player.height, ModContent.DustType<Dirt>(), 2, 2, 0, Color.Blue * 0.2f, Main.rand.NextFloat(4f, 8f));
@@ -361,7 +361,7 @@ public class ManaPlayer : ModPlayer
 		
 
 		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive, Main.DefaultSamplerState, default, Main.Rasterizer,
-			Shaders.ManaOpticDisplay.Value, Matrix.Identity);
+			OldShaders.ManaOpticDisplay.Value, Matrix.Identity);
 		// Lines.Rectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red);
 		// Main.spriteBatch.Draw(renderTarget, new Vector2(Main.screenWidth, Main.screenHeight) / 2, Color.White);
 		// Main.spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, new Vector2(1 / SizeMultiplier.X, 1 / SizeMultiplier.Y), SpriteEffects.None, 0f);
@@ -391,15 +391,15 @@ public class ManaPlayer : ModPlayer
 		gd.SetRenderTarget(_manaOpticRT);
 		gd.Clear(Color.Transparent);
 		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-		Main.spriteBatch.Draw(Textures.ManaOpticDisplayBG.Value, Vector2.Zero, null, Color.White * 0.35f, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+		Main.spriteBatch.Draw(OldTextures.ManaOpticDisplayBG.Value, Vector2.Zero, null, Color.White * 0.35f, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
 		Main.spriteBatch.End();
 
-		Shaders.Scanline.Value.Parameters["uScanlineCount"].SetValue(19);
-		Shaders.Scanline.Value.Parameters["uTime"].SetValue((float)Main.timeForVisualEffects * 0.01f);
-		Shaders.Scanline.Value.Parameters["uColor"].SetValue((Color.CornflowerBlue * 0.25f).ToVector4() );
+		OldShaders.Scanline.Value.Parameters["uScanlineCount"].SetValue(19);
+		OldShaders.Scanline.Value.Parameters["uTime"].SetValue((float)Main.timeForVisualEffects * 0.01f);
+		OldShaders.Scanline.Value.Parameters["uColor"].SetValue((Color.CornflowerBlue * 0.25f).ToVector4() );
 		
-		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer, Shaders.Scanline.Value, Main.GameViewMatrix.TransformationMatrix);
+		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer, OldShaders.Scanline.Value, Main.GameViewMatrix.TransformationMatrix);
 		DebugLines.Rectangle(new Rectangle(0, 0, _manaOpticRT.Width, _manaOpticRT.Height), Color.White);		
 		
 		Main.spriteBatch.End();

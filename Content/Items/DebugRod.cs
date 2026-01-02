@@ -50,9 +50,9 @@ namespace Pantheon.Content.Items
 			int whoAmI)
 		{
 			spriteBatch.End();
-			Shaders.Shine.Value.Parameters["uTime"].SetValue((float)(Main.timeForVisualEffects * 0.05f));
+			OldShaders.Shine.Value.Parameters["uTime"].SetValue((float)(Main.timeForVisualEffects * 0.05f));
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
-				Main.Rasterizer, Shaders.Shine.Value, Main.GameViewMatrix.TransformationMatrix);
+				Main.Rasterizer, OldShaders.Shine.Value, Main.GameViewMatrix.TransformationMatrix);
 			spriteBatch.Draw(TextureAssets.Item[Type].Value, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size / 2, scale, SpriteEffects.None, 0f);
 			spriteBatch.End();
 

@@ -25,7 +25,7 @@ public class ManaSink : ModItem
 	{
 		player.GetDamage(DamageClass.Magic) += 0.20f *
 		                                       ((player.statManaMax2 - player.statMana) / (float)(player.statManaMax2));
-		player.ManaPlayer().hollowRock = true;
+		player.ManaPlayer.hollowRock = true;
 		base.UpdateEquip(player);
 	}
 	
@@ -37,7 +37,7 @@ public class ManaSink : ModItem
 	
 	public override void ModifyTooltips(List<TooltipLine> tooltips)
 	{
-		if (Main.LocalPlayer.ManaPlayer().pincushion)
+		if (Main.LocalPlayer.ManaPlayer.pincushion)
 		{
 			tooltips.Add(new TooltipLine(Mod, "WishboneSynergy", $"[i:{ModContent.ItemType<CeremonialPincushion>()}] : Magic damage increases with damage taken."));
 		}

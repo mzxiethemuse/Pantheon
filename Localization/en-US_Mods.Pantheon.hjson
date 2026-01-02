@@ -139,6 +139,25 @@ Items: {
 		DisplayName: Nadir
 		Tooltip: ""
 	}
+
+	FlashbangGrenadeItem: {
+		DisplayName: Flashbang Grenade
+		Tooltip:
+			'''
+			Confuses enemies within the radius and flashes them
+			Flashed enemies take 10% more damage from ranged attacks
+			'''
+	}
+
+	SowersSeedItem: {
+		DisplayName: Sowers Seed Item
+		Tooltip: ""
+	}
+
+	ResonanceGrenadeMk1Item: {
+		DisplayName: Resonance Grenade Mk1 Item
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -154,11 +173,19 @@ Projectiles: {
 	GenericSpear.DisplayName: Generic Spear
 	SpearWeaponProjectile.DisplayName: Spear Weapon Projectile
 	VanillaSpear.DisplayName: Vanilla Spear
+	FlashbangGrenade.DisplayName: Flashbang Grenade
+	SowersSeed.DisplayName: Sowers Seed
+	ResonanceGrenadeMk1.DisplayName: Resonance Grenade Mk1
 }
 
 Buffs: {
 	WishboneBuff: {
 		DisplayName: Wishbone
 		Description: Increased magic damage and attack speed. Make a wish!
+	}
+
+	FlashedDebuff: {
+		DisplayName: Flashed Debuff
+		Description: You probably shouldn't have this
 	}
 }

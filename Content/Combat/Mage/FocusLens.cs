@@ -23,7 +23,7 @@ public class FocusLens : ModItem
 
 	public override void UpdateEquip(Player player)
 	{
-		player.ManaPlayer().focuslens = true;
+		player.ManaPlayer.focuslens = true;
 		
 		base.UpdateEquip(player);
 	}

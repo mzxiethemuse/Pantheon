@@ -12,22 +12,16 @@ using Terraria.ModLoader;
 
 namespace Pantheon.Common;
 
-// the fellas in #mod-dev would KILL ME fer this one!
+// as of C#14: the fellas in #mod-dev will not kill me fer this one.
 public static class PantheonPlayerExtensions {
-	public static TotemPlayer TotemPlayer(this Player p)
+	extension(Player p)
 	{
-		return p.GetModPlayer<TotemPlayer>();
-	}
-	
-	public static ManaPlayer ManaPlayer(this Player p)
-	{
-		return p.GetModPlayer<ManaPlayer>();
-	}
-	
-	public static FlamethrowerPlayer FlamethrowerPlayer(this Player p)
-	{
-		return p.GetModPlayer<FlamethrowerPlayer>();
-	}
-	
+		public TotemPlayer TotemPlayer => p.GetModPlayer<TotemPlayer>();
 
+		public ManaPlayer ManaPlayer => p.GetModPlayer<ManaPlayer>();
+
+		public FlamethrowerPlayer FlamethrowerPlayer => p.GetModPlayer<FlamethrowerPlayer>();
+		
+		public ItemCooldownPlayer ItemCooldownPlayer => p.GetModPlayer<ItemCooldownPlayer>();
+	}
 }

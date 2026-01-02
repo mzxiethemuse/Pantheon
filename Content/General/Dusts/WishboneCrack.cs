@@ -28,7 +28,7 @@ public class WishboneCrack : ModDust
 
 	public override bool PreDraw(Dust dust) {
 		if (dust.fadeIn == 0f) {
-			Main.spriteBatch.Draw(Textures.Wishbone.Value, dust.position - Main.screenPosition, new Rectangle(0 + 15 * (int)dust.customData, 0, 15, 30), dust.GetAlpha(dust.color), dust.rotation, Textures.Wishbone.Size() / 2, 1f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(OldTextures.Wishbone.Value, dust.position - Main.screenPosition, new Rectangle(0 + 15 * (int)dust.customData, 0, 15, 30), dust.GetAlpha(dust.color), dust.rotation, OldTextures.Wishbone.Size() / 2, 1f, SpriteEffects.None, 0f);
 		}
 		return false;
 	}

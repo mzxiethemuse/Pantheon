@@ -1,11 +1,17 @@
+using System;
 using Microsoft.Xna.Framework.Graphics;
+using Pantheon.Assets;
 using ReLogic.Content;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
 namespace Pantheon.Assets;
 
-public class Textures : ILoadable
+/// <summary>
+/// This class is EGREGIOUS, but we use tml-build AssetReferences now, i dont feel like migrating old stuff, so its marked as deprecated for now
+/// </summary>
+[Obsolete("We don't use this anymore, use AssetReferences from TML-Build instead... kept around for compat sake", false)]
+public class OldTextures : ILoadable
 {
 	public void Load(Mod mod)
 	{
@@ -14,6 +20,7 @@ public class Textures : ILoadable
 		{
 			VFXSmoke[i] = ModContent.Request<Texture2D>(AssetDirectory.Vfx + "smoke_0" + (i + 1).ToString());
 		}
+		
 		
 		for (int i = 0; i < 3; i++)
 		{
@@ -25,7 +32,8 @@ public class Textures : ILoadable
 	{
 	}
 	
-	
+	// this is gore and evil, BUT..
+	// i can't get tomat tml-build asset generators to work and im too embaressed to ask for help... :(
 	
 	
 

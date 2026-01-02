@@ -22,7 +22,7 @@ public class CeremonialPincushion : ModItem
 
 	public override void UpdateEquip(Player player)
 	{
-		player.ManaPlayer().pincushion = true;
+		player.ManaPlayer.pincushion = true;
 		
 		base.UpdateEquip(player);
 	}

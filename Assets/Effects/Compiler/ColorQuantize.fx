@@ -7,7 +7,7 @@ int levels;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(uImage0, coords);
-    return round(color * levels) / (levels * 1.0);
+    return round(color * levels) / (levels * 1.0) - 0.1;
 }
 
 technique Technique1

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
 using Pantheon.Common.Graphics;
 using Pantheon.Common.Utils;
+using Pantheon.Core;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
@@ -22,11 +23,12 @@ namespace Pantheon.Content.World.ChallengeAltars;
 
 public class ChallengeAltarTile : ModTile
 {
-		public static Asset<Texture2D> CrystalTexture;
+	public static Asset<Texture2D> CrystalTexture =>
+		AssetReferences.Content.World.ChallengeAltars.ChallengeAltarCrystal.Asset;
 
 		public override void Load()
 		{
-			CrystalTexture = ModContent.Request<Texture2D>("Pantheon/Content/World/ChallengeAltars/ChallengeAltarCrystal");
+
 			base.Load();
 		}
 
@@ -112,14 +114,14 @@ public class ChallengeAltarTile : ModTile
 
 				if (ChallengeAltarSystem.Instance.isAltarActive && ChallengeAltarSystem.Instance.activeAltar == new Point(i, j))
 				{
-					PixelationRenderTarget.AddPixelatedRenderAction(() =>
+					PosterizedRenderTarget.AddPosterizedRenderAction(() =>
 					{
-						var t = Textures.Noise.Value;
+						var t = OldTextures.Noise.Value;
 						// var color = Lighting.GetColor(i,j, Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFireColor());
-						Shaders.SetUpFireShader(player.GetAltarFirePrimaryColor() * 0.5f,
+						OldShaders.SetUpFireShader(player.GetAltarFirePrimaryColor() * 0.5f,
 							player.GetAltarFireSecondaryColor() * 1f, 3f, 0.01f);
 						Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive, SamplerState.PointWrap,
-							DepthStencilState.None, Main.Rasterizer, Shaders.Fire.Value,
+							DepthStencilState.None, Main.Rasterizer, OldShaders.Fire.Value,
 							Main.GameViewMatrix.TransformationMatrix);
 
 						//p.ToWorldCoordinates(16+8, 12) - Main.screenPosition + offScreen

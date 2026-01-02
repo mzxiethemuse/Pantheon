@@ -21,7 +21,7 @@ public class Nadir : ModItem
 
 	public override void UpdateEquip(Player player)
 	{
-		player.ManaPlayer().nadir = true;
+		player.ManaPlayer.nadir = true;
 		
 		base.UpdateEquip(player);
 	}

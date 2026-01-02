@@ -1,5 +1,6 @@
 using Pantheon.Assets;
 using Pantheon.Common;
+using Pantheon.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace Pantheon.Content.Combat.Mage;
 
 public class Athame : ModItem
 {
-	public override string Texture => AssetDirectory.Placeholder + "GenericItem";
+	public override string Texture => AssetReferences.Assets.Placeholders.GenericItem.KEY;
 
 	// public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(15);
  
@@ -22,7 +23,7 @@ public class Athame : ModItem
 
 	public override void UpdateEquip(Player player)
 	{
-		player.ManaPlayer().athame = true;
+		player.ManaPlayer.athame = true;
 		
 		base.UpdateEquip(player);
 	}

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
 using Pantheon.Common.Graphics;
+using Pantheon.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,11 +23,17 @@ public class Waterballs : MetaballFondler
 		{
 			float scale = 0.02f * dust.scale;
 			dust.color.A = 0;
-			Main.spriteBatch.Draw(Textures.VFXSoftGlow.Value, dust.position - Main.screenPosition, null,
-				Color.White with { A = 0 }, 0f, Textures.VFXSoftGlow.Value.Size() / 2, (dust.customData == null ? scale : 0.8f),
+			Main.spriteBatch.Draw(OldTextures.VFXSoftGlow.Value, dust.position - Main.screenPosition, null,
+				Color.White with { A = 0 }, 0f, OldTextures.VFXSoftGlow.Value.Size() / 2, (dust.customData == null ? scale : 0.8f),
 				SpriteEffects.None, 0f);
 			
 		}
+	}
+
+	public override bool PreDrawToScreen(ref Effect? effect, ref Texture2D? texture)
+	{
+		texture = AssetReferences.Assets.Vfx.beatles.Asset.Value;
+		return base.PreDrawToScreen(ref effect, ref texture);
 	}
 
 	public override void OnLoad()

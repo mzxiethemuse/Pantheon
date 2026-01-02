@@ -21,6 +21,9 @@ public abstract class BaseSpearProjectile : ModProjectile
 
 	protected bool shouldBeHeldProj = true;
 
+	public bool AttachedToPlayer = true;
+	public Vector2 RealCenter;
+
 	public virtual int DamageIncreasePerPierce => 0;
 
 	protected bool pointingBackwards => Owner.direction == -1; //((Projectile.rotation + MathF.PI) % MathHelper.TwoPi < MathF.PI / 2);
@@ -66,6 +69,7 @@ public abstract class BaseSpearProjectile : ModProjectile
 
 	public override void OnSpawn(IEntitySource source)
 	{
+		RealCenter = Projectile.Center;
 		Projectile.knockBack *= 0.5f;
 		Projectile.rotation = Projectile.velocity.ToRotation();
 		Projectile.rotation += Main.rand.NextFloat(-0.1f, 0.1f);
@@ -100,7 +104,7 @@ public abstract class BaseSpearProjectile : ModProjectile
 		Vector2 position = Vector2.UnitX.RotatedBy(Projectile.rotation) * (Range * MathHelper.Lerp(0.5f, 1.5f, finalprogress));
 		effectiveProgress = finalprogress;
 
-		Projectile.Center = Owner.MountedCenter + position;
+		Projectile.Center = (AttachedToPlayer ? Owner.MountedCenter : RealCenter) + position;
 	}
 
 	

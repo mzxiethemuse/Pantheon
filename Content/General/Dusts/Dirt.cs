@@ -34,7 +34,7 @@ public class Dirt : ModDust
 
 	public override bool PreDraw(Dust dust)
 	{
-		var _t = Textures.VFXSmoke[(int)dust.customData].Value;
+		var _t = OldTextures.VFXSmoke[(int)dust.customData].Value;
 		float a = (255 - dust.alpha) / 255f;
 		Main.spriteBatch.Draw(_t, dust.position - Main.screenPosition, null, dust.color with {A = (byte)dust.alpha} * 0.6f * a, dust.rotation, _t.Size() / 2,
 			(new Vector2(32) / _t.Size()) * dust.scale, SpriteEffects.None, 0f);

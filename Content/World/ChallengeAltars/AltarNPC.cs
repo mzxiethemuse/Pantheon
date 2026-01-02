@@ -37,10 +37,10 @@ public class AltarNPC : GlobalNPC
 	private void On_MainOnDrawNPCs(On_Main.orig_DrawNPCs orig, Main self, bool behindtiles)
 	{
 		orig.Invoke(self, behindtiles);
-		Shaders.AltarNPCOverlay.Value.Parameters["uTime"].SetValue((float)(Main.timeForVisualEffects * 0.05f));
-		Shaders.AltarNPCOverlay.Value.Parameters["uColor"].SetValue(Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFireSecondaryColor().ToVector4());
+		OldShaders.AltarNPCOverlay.Value.Parameters["uTime"].SetValue((float)(Main.timeForVisualEffects * 0.05f));
+		OldShaders.AltarNPCOverlay.Value.Parameters["uColor"].SetValue(Main.LocalPlayer.GetModPlayer<ChallengeAltarPlayer>().GetAltarFireSecondaryColor().ToVector4());
 
-		Main.graphics.GraphicsDevice.Textures[1] = Textures.Noise.Value;
+		Main.graphics.GraphicsDevice.Textures[1] = OldTextures.Noise.Value;
 		Main.spriteBatch.End();
 		SpriteBatchSnapshot snapshot = new(Main.spriteBatch);
 		if (!behindtiles)
@@ -48,11 +48,11 @@ public class AltarNPC : GlobalNPC
 			foreach (var npc in Main.npc.Where(npc => npc.active && npc.GetGlobalNPC<AltarNPC>().partOfAltarChallenge))
 			{
 				var t = TextureAssets.Npc[npc.type].Value;
-				Shaders.AltarNPCOverlay.Value.Parameters["resolution"].SetValue(t.Size());
-				Shaders.AltarNPCOverlay.Value.Parameters["sourceRect"].SetValue(new Vector4(npc.frame.X, npc.frame.Y, npc.frame.Width, npc.frame.Height));
-				Shaders.AltarNPCOverlay.Value.Parameters["opacity"].SetValue(0.5f);
+				OldShaders.AltarNPCOverlay.Value.Parameters["resolution"].SetValue(t.Size());
+				OldShaders.AltarNPCOverlay.Value.Parameters["sourceRect"].SetValue(new Vector4(npc.frame.X, npc.frame.Y, npc.frame.Width, npc.frame.Height));
+				OldShaders.AltarNPCOverlay.Value.Parameters["opacity"].SetValue(0.5f);
 
-				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, Shaders.AltarNPCOverlay.Value, Main.GameViewMatrix.TransformationMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, OldShaders.AltarNPCOverlay.Value, Main.GameViewMatrix.TransformationMatrix);
 
 				Main.instance.DrawNPC(npc.whoAmI, false);
 				// Main.spriteBatch.Draw(

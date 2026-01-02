@@ -4,17 +4,20 @@ using Pantheon.Assets;
 using Pantheon.Common.Graphics;
 using Pantheon.Common.Utils;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace Pantheon.Content.General.Dusts;
 
 /// <summary>
+/// this class is lowkey GAY as FUCK
 ///  dust.scale informs how big the burst will be at the end, in half-tile intervals (1 scale = 16 pixels)
 ///  internall uses velocity to keep track of time
 /// </summary>
 public class Burst : ModDust
 {
     const bool _debug = false;
+    public virtual bool UseShader => true;
     public override string Texture => null;
 
     public override void OnSpawn(Dust dust)
@@ -47,28 +50,35 @@ public class Burst : ModDust
         // with {A = (byte)alpha}
 
 
-        Shaders.Burst.Value.Parameters["Color"].SetValue((dust.GetAlpha(dust.color) * alpha).ToVector4() * 1.1f);
-        if (dust.customData is float data)
-        {
-            Shaders.Burst.Value.Parameters["Intensity"].SetValue(data);
-        }
-        else
-        {
-            Shaders.Burst.Value.Parameters["Intensity"].SetValue(2f);
-        }
-        Shaders.Burst.Value.Parameters["TotalTime"].SetValue(dust.velocity.X);
-        Shaders.Burst.Value.Parameters["uTime"].SetValue(dust.velocity.Y + 1);
-        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
-            Main.Rasterizer, Shaders.Burst.Value, Main.GameViewMatrix.TransformationMatrix);
-        DebugLines.Rectangle(new Rectangle((int)(FUCK.X - size.X), (int)(FUCK.Y - size.Y), (int)
-            (2 * size.X), (int)(2 * size.Y)), Color.White);
-        Main.spriteBatch.End();
 
-        //
+        if (UseShader)
+        {
+            OldShaders.Burst.Value.Parameters["Color"].SetValue((dust.GetAlpha(dust.color) * alpha).ToVector4() * 1.1f);
+            if (dust.customData is float data)
+            {
+                OldShaders.Burst.Value.Parameters["Intensity"].SetValue(data);
+            }
+            else
+            {
+                OldShaders.Burst.Value.Parameters["Intensity"].SetValue(2f);
+            }
+
+            OldShaders.Burst.Value.Parameters["TotalTime"].SetValue(dust.velocity.X);
+            OldShaders.Burst.Value.Parameters["uTime"].SetValue(dust.velocity.Y + 1);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
+                Main.Rasterizer, OldShaders.Burst.Value, Main.GameViewMatrix.TransformationMatrix);
+            DebugLines.Rectangle(new Rectangle((int)(FUCK.X - size.X), (int)(FUCK.Y - size.Y), (int)
+                (2 * size.X), (int)(2 * size.Y)), Color.White);
+            Main.spriteBatch.End();
+
+            //
+
+        }
+
+        
         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
             Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         ExtraDraw(progress, dust);
-            
         
         return false;
     }
@@ -79,14 +89,14 @@ public class Burst : ModDust
         d.customData = fadeamt;
     }
 
-    public float ScaleLerpMod(float value)
+    public virtual float ScaleLerpMod(float value)
     {
         return value;
     }
 
-    public float AlphaLerpMod(float value)
+    public virtual float AlphaLerpMod(float value)
     {
-        return Easing.OutQuad(value);
+        return Easing.InOutCirc(value);
     }
 
     public virtual Vector2 GetScale(float progress, Dust dust)

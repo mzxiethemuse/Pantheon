@@ -60,18 +60,25 @@ public class ItemCooldownPlayer : ModPlayer
 		}
 	}
 
-	public bool IsItemOnCooldown(int type)
+	public bool IsItemOnCooldown(int type) => ItemCooldowns.ContainsKey(type);
+}
+
+public static class CooldownExtensions
+{
+	extension(Player player)
 	{
-		return ItemCooldowns.ContainsKey(type);
+		
+		// ReSharper disable once UnusedMember.Global
+		public bool IsItemOnCoolDown(int type) => player.ItemCooldownPlayer.ItemCooldowns.ContainsKey(type);
 	}
 }
 
 public class CooldownGlobalItem : GlobalItem
 {
 	public override bool CanUseItem(Item item, Player player) =>
-		!player.ItemCooldownPlayer().ItemCooldowns.ContainsKey(item.type);
+		!player.ItemCooldownPlayer.ItemCooldowns.ContainsKey(item.type);
 	
-	public bool myPlayerHasCooldownFor(int type) => Main.myPlayer != 255 && Main.LocalPlayer.ItemCooldownPlayer().ItemCooldowns != null && Main.LocalPlayer.ItemCooldownPlayer().ItemCooldowns.ContainsKey(type);
+	public bool myPlayerHasCooldownFor(int type) => Main.myPlayer != 255 && Main.LocalPlayer.ItemCooldownPlayer.ItemCooldowns != null && Main.LocalPlayer.ItemCooldownPlayer.ItemCooldowns.ContainsKey(type);
 
 
 	public override bool PreDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame,
@@ -80,11 +87,11 @@ public class CooldownGlobalItem : GlobalItem
 	{
 		if (myPlayerHasCooldownFor(item.type))
 		{
-			ItemCooldownData data = Main.LocalPlayer.ItemCooldownPlayer().ItemCooldowns[item.type];
-			Shaders.ItemCooldown.Value.Parameters["uTime"].SetValue(data.cooldown / (float)data.maxTime);
-			Shaders.ItemCooldown.Value.Parameters["uImageSize1"].SetValue(TextureAssets.Item[item.type].Size());
+			ItemCooldownData data = Main.LocalPlayer.ItemCooldownPlayer.ItemCooldowns[item.type];
+			OldShaders.ItemCooldown.Value.Parameters["uTime"].SetValue(data.cooldown / (float)data.maxTime);
+			OldShaders.ItemCooldown.Value.Parameters["uImageSize1"].SetValue(TextureAssets.Item[item.type].Size());
 			Main.spriteBatch.End();
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, Shaders.ItemCooldown.Value,
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, OldShaders.ItemCooldown.Value,
 				Main.UIScaleMatrix);
 		}
 		return true;
@@ -112,12 +119,5 @@ public class ItemCooldownData
 	public ItemCooldownData(int time)
 	{
 		maxTime = time;
-	}
-}
-
-public static class ThisClassIsLiterallyJustForOneExtensionMethodLikeWhoTheFuckCaresWhatICallIt {
-	public static ItemCooldownPlayer ItemCooldownPlayer(this Player player)
-	{
-		return player.GetModPlayer<ItemCooldownPlayer>();
 	}
 }

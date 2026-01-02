@@ -45,7 +45,7 @@ public abstract class SummonerTotem : ModProjectile
 	public override void OnSpawn(IEntitySource source)
 	{
 		Projectile.timeLeft = (int)(Lifetime * (Projectile.owner != 255
-			? (1 + Main.player[Projectile.owner].TotemPlayer().TotemDurationIncrease)
+			? (1 + Main.player[Projectile.owner].TotemPlayer.TotemDurationIncrease)
 			: 1));
 		base.OnSpawn(source);
 	}
@@ -136,13 +136,13 @@ public abstract class SummonerTotem : ModProjectile
 		center -= Main.screenPosition;
 		range *= 2;
 		
-		Shaders.Burst.Value.Parameters["Color"].SetValue(color.ToVector4() * 0.05f * (MathF.Tanh(10 * MathF.Sin(MathF.PI * progress))));
-		Shaders.Burst.Value.Parameters["Intensity"].SetValue(50f);
-		Shaders.Burst.Value.Parameters["TotalTime"].SetValue(1);
-		Shaders.Burst.Value.Parameters["uTime"].SetValue(0);
+		OldShaders.Burst.Value.Parameters["Color"].SetValue(color.ToVector4() * 0.05f * (MathF.Tanh(10 * MathF.Sin(MathF.PI * progress))));
+		OldShaders.Burst.Value.Parameters["Intensity"].SetValue(50f);
+		OldShaders.Burst.Value.Parameters["TotalTime"].SetValue(1);
+		OldShaders.Burst.Value.Parameters["uTime"].SetValue(0);
 
 		Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
-			Main.Rasterizer, Shaders.Burst.Value, Main.GameViewMatrix.TransformationMatrix);
+			Main.Rasterizer, OldShaders.Burst.Value, Main.GameViewMatrix.TransformationMatrix);
 		DebugLines.Rectangle(new Rectangle(
 			(int)(center.X - range / 2), (int)(center.Y - range / 2),
 			(int)range, (int)range), Color.White * 0f);
@@ -184,7 +184,7 @@ public abstract class TotemItem : ModItem
 		
 		if (player.whoAmI == Main.myPlayer)
 		{
-			player.ItemCooldownPlayer().SetCooldown(Item.type, 60 * CooldownInSeconds);
+			player.ItemCooldownPlayer.SetCooldown(Item.type, 60 * CooldownInSeconds);
 		}
 		return base.UseItem(player);
 	}

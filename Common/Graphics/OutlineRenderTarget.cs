@@ -62,12 +62,12 @@ public class OutlineRenderTarget : ILoadable
 				return;
 			}
 
-			Shaders.Outline.Value.Parameters["staticColor"].SetValue(new Vector4(0f, 0f, 0f, 0f));
+			OldShaders.Outline.Value.Parameters["staticColor"].SetValue(new Vector4(0f, 0f, 0f, 0f));
 
-			Shaders.Outline.Value.Parameters["textureSize"].SetValue(renderTarget.Size());
+			OldShaders.Outline.Value.Parameters["textureSize"].SetValue(renderTarget.Size());
 			Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
 				Main.Rasterizer,
-				Shaders.Outline.Value, Matrix.Identity); //Main.GameViewMatrix.TransformationMatrix);
+				OldShaders.Outline.Value, Matrix.Identity); //Main.GameViewMatrix.TransformationMatrix);
 
 			// Main.spriteBatch.Draw(renderTarget, new Vector2(Main.screenWidth, Main.screenHeight) / 2, Color.White);
 			// Main.spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, new Vector2(1 / SizeMultiplier.X, 1 / SizeMultiplier.Y), SpriteEffects.None, 0f);
@@ -118,13 +118,13 @@ public class OutlineRenderTarget : ILoadable
 		matrix.Translation *= new Vector3(2f, 2f, 1f);
 		foreach (var list in sortedActions)
 		{
-			Shaders.SolidColor.Value.Parameters["ucolor"].SetValue(list.Key.ToVector4());
+			Shaders.SolidColor.Asset.Value.Parameters["ucolor"].SetValue(list.Key.ToVector4());
 
 			
 			
 			Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
 				Main.Rasterizer,
-				Shaders.SolidColor.Value, matrix); //Main.GameViewMatrix.TransformationMatrix);
+				Shaders.SolidColor.Asset.Value, matrix); //Main.GameViewMatrix.TransformationMatrix);
 			// Lines.Rectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red);
 
 			foreach (var action in list.Value)

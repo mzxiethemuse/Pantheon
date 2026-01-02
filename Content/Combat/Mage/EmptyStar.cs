@@ -25,7 +25,7 @@ public class EmptyStar : ModItem
 	{
 		player.GetDamage(DamageClass.Magic) *= 1 + 0.20f * (player.statManaMax - player.statMana) / (float)(player.statManaMax);
 		player.manaCost -= (player.statManaMax - player.statMana) / (float)(player.statManaMax) * 0.2f;
-		player.ManaPlayer().hollowRock = true;
+		player.ManaPlayer.hollowRock = true;
 		base.UpdateEquip(player);
 	}
 	
@@ -47,7 +47,7 @@ public class EmptyStar : ModItem
 	
 	public override void ModifyTooltips(List<TooltipLine> tooltips)
 	{
-		if (Main.LocalPlayer.ManaPlayer().pincushion)
+		if (Main.LocalPlayer.ManaPlayer.pincushion)
 		{
 			tooltips.Add(new TooltipLine(Mod, "PinCushionSynergy", $"[i:{ModContent.ItemType<CeremonialPincushion>()}] : Magic damage increases with damage taken."));
 		}

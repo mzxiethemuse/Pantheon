@@ -8,9 +8,9 @@ namespace Pantheon.Common;
 public class ItemRemover : ModSystem
 {
 	public static int[] ItemsToRemove =
-	{
+	[
 		ItemID.ManaFlower
-	};
+	];
 
 	public override void PostAddRecipes()
 	{

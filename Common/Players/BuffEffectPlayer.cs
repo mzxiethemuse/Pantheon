@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
+using Pantheon.Core;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -28,11 +29,11 @@ public class BuffEffectPlayer : ModPlayer
 			orig(self);
 			if (Main.LocalPlayer.GetModPlayer<BuffEffectPlayer>().lobotomize)
 			{
-				Shaders.GaussianBlur.Value.Parameters["distance"].SetValue(80f);
+				OldShaders.GaussianBlur.Value.Parameters["distance"].SetValue(80f);
 				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState,
-					default, Main.Rasterizer, Shaders.GaussianBlur.Value, Main.GameViewMatrix.TransformationMatrix);
-				if (Main.LocalPlayer.GetModPlayer<BuffEffectPlayer>().penis3 > 0) Main.spriteBatch.Draw(Textures.Beatles.Value,
-					Main.ScreenSize.ToVector2() / 2, null, Color.White, 0f, Textures.Beatles.Size() / 2,
+					default, Main.Rasterizer, OldShaders.GaussianBlur.Value, Main.GameViewMatrix.TransformationMatrix);
+				if (Main.LocalPlayer.GetModPlayer<BuffEffectPlayer>().penis3 > 0) Main.spriteBatch.Draw(AssetReferences.Assets.Vfx.beatles.Asset.Value,
+					Main.ScreenSize.ToVector2() / 2, null, Color.White, 0f, AssetReferences.Assets.Vfx.beatles.Asset.Value.Size() / 2,
                 							new Vector2(1, 0.75f), SpriteEffects.None, 0f);
 				for (int i = 0; i < 4; i++)
 				{
@@ -48,8 +49,8 @@ public class BuffEffectPlayer : ModPlayer
 				Main.spriteBatch.End();
 			}
 		};
-		Filters.Scene["Pantheon:Lobotomize"] = new Filter(new ScreenShaderData(Shaders.GaussianBlur2, "FilterMyShader"));
-		Filters.Scene["Pantheon:Lobotomize2"] = new Filter(new ScreenShaderData(Shaders.GaussianBlur2, "FilterMyShader"));
+		Filters.Scene["Pantheon:Lobotomize"] = new Filter(new ScreenShaderData(OldShaders.GaussianBlur2, "FilterMyShader"));
+		Filters.Scene["Pantheon:Lobotomize2"] = new Filter(new ScreenShaderData(OldShaders.GaussianBlur2, "FilterMyShader"));
 
 		base.Load();
 	}
@@ -71,7 +72,7 @@ public class BuffEffectPlayer : ModPlayer
 			{
 				penis3 = 255;
 				penis2 = false;
-				SoundEngine.PlaySound(Sounds.Lobotomy.WithPitchVariance(0.15f));
+				SoundEngine.PlaySound(Sounds.Lobotomy_Sound_Effect_DOWNLOAD.Asset.WithPitchVariance(0.15f));
 				// Main.timeForVisualEffects = Main.rand.NextDouble() * 10;
 				cameraOffsetLobotomize = Main.rand.NextVector2CircularEdge(3000, 3000);
 				

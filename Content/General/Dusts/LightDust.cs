@@ -13,7 +13,7 @@ public class LightDust : ModDust
 	public override bool PreDraw(Dust dust) {
 		if (dust.fadeIn == 0f) {
 		
-			Main.spriteBatch.Draw(Textures.VFXLightStar.Value, dust.position - Main.screenPosition, dust.frame, dust.GetAlpha(dust.color), dust.rotation, Textures.VFXLightStar.Size() / 2, dust.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(OldTextures.VFXLightStar.Value, dust.position - Main.screenPosition, dust.frame, dust.GetAlpha(dust.color), dust.rotation, OldTextures.VFXLightStar.Size() / 2, dust.scale, SpriteEffects.None, 0f);
 		}
 		return false;
 	}

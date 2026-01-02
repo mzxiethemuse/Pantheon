@@ -23,7 +23,7 @@ public class PeacefulEffigy : ModItem
 
 	public override void UpdateEquip(Player player)
 	{
-		player.TotemPlayer().TotemDurationIncrease += 0.15f;
+		player.TotemPlayer.TotemDurationIncrease += 0.15f;
 		base.UpdateEquip(player);
 	}
 	

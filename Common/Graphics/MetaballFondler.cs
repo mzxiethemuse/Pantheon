@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
+using Pantheon.Core;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -65,17 +66,21 @@ public abstract class MetaballFondler : ILoadable
 		Texture2D? texture2D = null;
 		bool shouldDoDefaultDrawing = PreDrawToScreen(ref shader, ref texture2D);
 		
-		Shaders.Threshold.Value.Parameters["threshold"].SetValue(2f);
+		Shaders.Threshold.Asset.Value.Parameters["threshold"].SetValue(2f);
 		if (shouldDoDefaultDrawing)
 		{
 			; //Main.GameViewMatrix.TransformationMatrix);
 
 			if (texture2D != null)
 			{
+				var maskShader = AssetReferences.Assets.Effects.Compiler.Mask.Asset.Value;
+				maskShader.Parameters["textureSize"].SetValue(texture2D.Size());
+				maskShader.Parameters["maskSize"].SetValue(MetaballMask.Size() * 4);
+
 				Main.graphics.GraphicsDevice.Textures[1] = texture2D;
 				Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.PointWrap, default,
 					Main.Rasterizer,
-					null, Matrix.Identity);
+					maskShader, Matrix.Identity);
 				Main.spriteBatch.Draw(MetaballMask, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 				Main.spriteBatch.End();
 
@@ -88,11 +93,11 @@ public abstract class MetaballFondler : ILoadable
 				Main.spriteBatch.Draw(MetaballMask, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color);
 				Main.spriteBatch.End();
 			}
-			Shaders.Outline.Value.Parameters["staticColor"].SetValue(OutlineColor.ToVector4());
-			Shaders.Outline.Value.Parameters["textureSize"].SetValue(MetaballMask.Size());
+			Shaders.Outline.Asset.Value.Parameters["staticColor"].SetValue(OutlineColor.ToVector4());
+			Shaders.Outline.Asset.Value.Parameters["textureSize"].SetValue(MetaballMask.Size());
 			Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default,
 				Main.Rasterizer,
-				Shaders.Outline.Value, Matrix.Identity);
+				Shaders.Outline.Asset.Value, Matrix.Identity);
 			Main.spriteBatch.Draw(MetaballMask, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color);
 			Main.spriteBatch.End();
 		}
@@ -112,8 +117,8 @@ public abstract class MetaballFondler : ILoadable
 		gd.SetRenderTarget(MetaballMask);
 		gd.Clear(Color.Transparent);
 
-		Shaders.Threshold.Value.Parameters["threshold"].SetValue(0.8f);
-		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Opaque, Main.DefaultSamplerState, default, Main.Rasterizer, Shaders.Threshold.Value, Matrix.Identity);
+		Shaders.Threshold.Asset.Value.Parameters["threshold"].SetValue(0.8f);
+		Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Opaque, Main.DefaultSamplerState, default, Main.Rasterizer, Shaders.Threshold.Asset.Value, Matrix.Identity);
 		Main.spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, _renderTarget.Width / 2,  _renderTarget.Height / 2), OutlineColor);
 		Main.spriteBatch.End();
 		gd.SetRenderTargets(oldRTs);
@@ -126,24 +131,32 @@ public abstract class MetaballFondler : ILoadable
 		{
 			return;
 		}
-        
-		_renderTarget?.Dispose();
-		GraphicsDevice gd = Main.instance.GraphicsDevice;
-		_renderTarget = new RenderTarget2D(gd, Size.X, Size.Y);
-		_renderTarget.RenderTargetUsage = RenderTargetUsage.PreserveContents;
-		MetaballMask = new RenderTarget2D(Main.instance.GraphicsDevice, Size.X / 2, Size.Y / 2);
-		MetaballMask.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+
+		Main.RunOnMainThread(() =>
+		{
+			_renderTarget?.Dispose();
+			GraphicsDevice gd = Main.instance.GraphicsDevice;
+			_renderTarget = new RenderTarget2D(gd, Size.X, Size.Y);
+			_renderTarget.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+			MetaballMask = new RenderTarget2D(Main.instance.GraphicsDevice, Size.X / 2, Size.Y / 2);
+			MetaballMask.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+		});
+
 	}
 
 	public void Unload()
 	{
 		if (!Main.dedServ)
 		{
-			Main.OnResolutionChanged -= InitRT;
+			Main.RunOnMainThread(() => { Main.OnResolutionChanged -= InitRT; });
 		}
-		_renderTarget?.Dispose();
-		On_Main.CheckMonoliths -= DrawToRT;
-		On_Main.DrawProjectiles -= DrawRTToScreen;
+
+		Main.RunOnMainThread(() =>
+		{
+			_renderTarget?.Dispose();
+			On_Main.CheckMonoliths -= DrawToRT;
+			On_Main.DrawProjectiles -= DrawRTToScreen;
+		});
 	}
 
 	/// <summary>

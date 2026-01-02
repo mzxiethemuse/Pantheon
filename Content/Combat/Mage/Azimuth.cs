@@ -22,7 +22,7 @@ public class Azimuth : ModItem
 
 	public override void UpdateEquip(Player player)
 	{
-		player.ManaPlayer().manabank = true;
+		player.ManaPlayer.manabank = true;
 		
 		base.UpdateEquip(player);
 	}
@@ -34,7 +34,7 @@ public class Azimuth : ModItem
 
 	public override void ModifyTooltips(List<TooltipLine> tooltips)
 	{
-		if (Main.LocalPlayer.ManaPlayer().wishbone)
+		if (Main.LocalPlayer.ManaPlayer.wishbone)
 		{
 			tooltips.Add(new TooltipLine(Mod, "WishboneSynergy", $"[i:{ModContent.ItemType<Wishbone>()}] : Activates wishbone effect when mana bank is activated."));
 		}

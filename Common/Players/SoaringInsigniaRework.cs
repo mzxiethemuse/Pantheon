@@ -20,14 +20,15 @@ public class SoaringInsigniaReworkPlayer : ModPlayer
 
 	public override void OnConsumeMana(Item item, int manaConsumed)
 	{
-		if (soaringInsignia && Player.ManaPlayer().ManaFromPast5Seconds > 100 && !Player.ItemCooldownPlayer().IsItemOnCooldown(ItemID.EmpressFlightBooster))
+		
+		if (soaringInsignia && Player.ManaPlayer.ManaFromPast5Seconds > 100 && !Player.ItemCooldownPlayer.IsItemOnCooldown(ItemID.EmpressFlightBooster))
 		{
 			// Burst.SpawnBurst(Textures.VFXExplosion, Player.Center, (Color.Pink * 2f) with {A = 60}, 100f, 30, true);
 			for (int i = 0; i < 80; i++)
 			{
 				Dust.NewDust(Player.position, Player.width, Player.height, DustID.LastPrism);
 			}
-			Player.ItemCooldownPlayer().SetCooldown(ItemID.EmpressFlightBooster, 60 * 8);
+			Player.ItemCooldownPlayer.SetCooldown(ItemID.EmpressFlightBooster, 60 * 8);
 			Player.RefreshExtraJumps();
 		}
 		base.OnConsumeMana(item, manaConsumed);

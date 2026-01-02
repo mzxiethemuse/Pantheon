@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -7,7 +8,11 @@ using Terraria.ModLoader;
 
 namespace Pantheon.Assets;
 
-public class Shaders : ILoadable
+/// <summary>
+/// This class is EGREGIOUS, but we use tml-build AssetReferences now, i dont feel like migrating old stuff, so its marked as deprecated for now
+/// </summary>
+[Obsolete("We don't use this anymore, use AssetReferences from TML-Build instead... kept around for compat sake", false)]
+public class OldShaders : ILoadable
 {
 	public void Load(Mod mod)
 	{

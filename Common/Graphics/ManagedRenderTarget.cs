@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pantheon.Assets;
+using Pantheon.Core;
 using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
@@ -12,6 +13,7 @@ namespace Pantheon.Common.Graphics;
 public abstract class ManagedRenderTarget : ILoadable
 {
 	protected RenderTarget2D _renderTarget;
+	protected virtual bool BehindProjectiles => false;
 	protected virtual Point Size => new Point(Main.screenWidth, Main.screenHeight);
 	
 	public void Load(Mod mod)
@@ -35,7 +37,10 @@ public abstract class ManagedRenderTarget : ILoadable
 
 	private void DrawRTToScreen(On_Main.orig_DrawProjectiles orig, Main self)
 	{
-		orig.Invoke(self);
+		if (BehindProjectiles)
+		{
+			orig.Invoke(self);
+		}
 		if (_renderTarget == null || _renderTarget.IsDisposed)
 		{
 			return;
@@ -55,6 +60,13 @@ public abstract class ManagedRenderTarget : ILoadable
 			Main.spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 			Main.spriteBatch.End();
 		}
+
+		if (!BehindProjectiles)
+		{
+			orig.Invoke(self);
+
+		}
+
 	}
 
 	private void DrawToRT()
@@ -76,11 +88,14 @@ public abstract class ManagedRenderTarget : ILoadable
 		{
 			return;
 		}
-        
-		_renderTarget?.Dispose();
-		GraphicsDevice gd = Main.instance.GraphicsDevice;
-		_renderTarget = new RenderTarget2D(gd, Size.X, Size.Y);
-		_renderTarget.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+
+		Main.RunOnMainThread(() =>
+		{
+			_renderTarget?.Dispose();
+			GraphicsDevice gd = Main.instance.GraphicsDevice;
+			_renderTarget = new RenderTarget2D(gd, Size.X, Size.Y);
+			_renderTarget.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+		});
 	}
 
 	public void Unload()
@@ -90,7 +105,9 @@ public abstract class ManagedRenderTarget : ILoadable
 		{
 			Main.OnResolutionChanged -= InitRT;
 		}
-		_renderTarget?.Dispose();
+
+		Main.RunOnMainThread(() => { _renderTarget?.Dispose(); });
+
 		On_Main.DrawProjectiles -= DrawRTToScreen;
 	}
 

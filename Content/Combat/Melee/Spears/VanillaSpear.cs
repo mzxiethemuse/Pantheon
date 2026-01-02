@@ -107,15 +107,25 @@ public class VanillaSpear : BaseSpearProjectile
 						MathHelper.Clamp(
 							((VanillaSpear)(Projectile.ModProjectile)).RangeMultipler * 1.25f +
 							Main.rand.NextFloat(0, 0.25f), 1f, 1.2f);
-
+					vanillaSpear.AttachedToPlayer = false;
 				}
-				
 			}
 			else
 			{
 				modifiers.DisableCrit();
 			}
 			Projectile.ai[1] += 1f;
+		} else if (ProjectileIDToUseForTexture == ProjectileID.TheRottedFork)
+		{
+			var player = Main.player[Projectile.owner];
+			for (int i = 0; i < 3; i++)
+			{
+				var velocity = player.Center.DirectionTo(Projectile.Center).RotatedByRandom(0.7) * 7;
+				var blood = Projectile.NewProjectileDirect(player.GetProjectileSource_Item(player.HeldItem),
+					player.Center, velocity,
+					ProjectileID.BloodArrow, Projectile.damage / 8, Projectile.knockBack,
+					player.whoAmI);
+			}
 		}
 		
 		
@@ -130,8 +140,8 @@ public class VanillaSpearReplacements : GlobalItem
 		ItemID.Trident,
 		ItemID.DarkLance,
 		ItemID.ThunderSpear,
+		ItemID.TheRottedFork,
 		2332,
-		802,
 		277,
 		406,
 		1226,

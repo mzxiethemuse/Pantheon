@@ -127,7 +127,7 @@ public class ChallengeAltarSystem : ModSystem
 				if (timeUntilNextWave == 300)
 				{
 					// anything that happens on wave start go here
-					SoundEngine.PlaySound(Sounds.ChallengeAltarSpawnWave, altarPositionWorld);
+					SoundEngine.PlaySound(Sounds.ChallengeAltarSpawnWave.Asset, altarPositionWorld);
 				}
 				timeToPreventStuck = 0; 
 				if (Main.netMode != NetmodeID.Server && Main.timeForVisualEffects % 60 > 0.01f)
@@ -168,7 +168,7 @@ public class ChallengeAltarSystem : ModSystem
 					timeUntilNextWave = 300;
 					if (wavesLeft < 0)
 					{
-						SoundEngine.PlaySound(Sounds.ChallengeAltarFinish, altarPositionWorld);
+						SoundEngine.PlaySound(Sounds.ChallengeAltarCongrats.Asset, altarPositionWorld);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
@@ -243,7 +243,7 @@ public class ChallengeAltarSystem : ModSystem
 		{
 			Vector2 offset = (new Vector2(-75, 0)).RotatedBy(MathF.PI * (i / ((float)enemiesLeft - 1)));
 			int type = ChallengeAltarSpawnPools.GetRandomFromPool(ChallengeAltarSpawnPools.GetPool(biomes.Biome,
-				biomes.GetPurity(), biomes.Underground, Main.hardMode),  ref blacklist);
+				biomes.GetPurity(), biomes.Underground, biomes.Hell, Main.hardMode),  ref blacklist);
 			var npc = NPC.NewNPCDirect(new EntitySource_Misc("Challenge"), activeAltar.ToWorldCoordinates(24, 32), type);
 			npc.GetGlobalNPC<AltarNPC>().partOfAltarChallenge = true;
 			npc.position += offset;
